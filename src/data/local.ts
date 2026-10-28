@@ -1,4 +1,4 @@
-import type { DadosUsuario } from "@/domain/tipos";
+import type { DadosUsuario, Plano } from "@/domain/tipos";
 import { gerarExemplo } from "./exemplo";
 import { DADOS_VAZIOS, type Repositorio } from "./repositorio";
 
@@ -63,6 +63,11 @@ export class LocalRepositorio implements Repositorio {
       this.storage.removeItem(CHAVE_FAVORITOS);
     } catch {}
     return DADOS_VAZIOS;
+  }
+
+  async salvarPlano(plano: Plano): Promise<void> {
+    const atual = ler(this.storage) ?? { ...DADOS_VAZIOS, exemplo: false };
+    gravar(this.storage, { ...atual, plano });
   }
 
   async favoritos(): Promise<string[]> {

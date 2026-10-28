@@ -1,4 +1,4 @@
-import type { DadosUsuario } from "@/domain/tipos";
+import type { DadosUsuario, Plano } from "@/domain/tipos";
 
 /**
  * Acesso a dados do usuário. As telas só conhecem esta interface;
@@ -11,6 +11,8 @@ export interface Repositorio {
   /** ids dos exercícios favoritos */
   favoritos(): Promise<string[]>;
   definirFavorito(exercicioId: string, favorito: boolean): Promise<void>;
+  /** grava a ficha e a torna a ativa (as anteriores ficam no histórico) */
+  salvarPlano(plano: Plano): Promise<void>;
 }
 
 export const DADOS_VAZIOS: DadosUsuario = { perfil: null, perfilCompleto: null, plano: null, sessoes: [], medidas: [] };

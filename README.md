@@ -2,7 +2,13 @@
 
 Aplicativo de treino (PWA) com dashboard, fichas, biblioteca de exercícios, mapa muscular, modo treino, evolução e assistente de IA. Desenvolvido por etapas; veja o plano e o estado de cada etapa em [docs/ARQUITETURA.md](docs/ARQUITETURA.md).
 
-## O que já funciona (v0.4)
+## O que já funciona (v0.5)
+
+**Etapa 7 — criador de treinos:**
+- Monta a ficha a partir do perfil (objetivo, nível, dias, tempo, equipamentos), com prévia ao vivo, explicação da divisão e tabela de volume semanal por grupo.
+- Avisos de volume alto, recuperação (mesmo grupo em treinos seguidos), treino longo demais e exercício repetido.
+- Edição: séries, repetições, descanso, carga inicial, trocar por alternativas, reordenar, remover e adicionar.
+- Selo de origem e revisão profissional (fichas em `planos`, RLS testada em `supabase/tests/rls_planos.sql`).
 
 **Etapa 6 — mapa muscular:**
 - Corpo de frente e de costas com 16 músculos clicáveis (também pelo teclado e por uma lista de nomes).

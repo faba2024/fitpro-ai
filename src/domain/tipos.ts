@@ -81,6 +81,20 @@ export interface ItemPlano {
   repsMin: number;
   repsMax: number;
   descansoS: number;
+  /** carga inicial escolhida pela pessoa (kg); null = definir no primeiro treino */
+  cargaKg?: number | null;
+  /** repsMin/repsMax em segundos (isometria) */
+  porTempo?: boolean;
+}
+
+/** O que o motor usou para montar o plano (fica salvo para explicar a ficha). */
+export interface ParametrosPlano {
+  objetivo: Objetivo;
+  nivel: Nivel;
+  diasSemana: number;
+  minutosSessao: number;
+  equipamentos: Equipamento[];
+  conservador: boolean;
 }
 
 export interface PlanoSessao {
@@ -96,6 +110,13 @@ export interface Plano {
   nome: string;
   objetivo: Objetivo;
   sessoes: PlanoSessao[];
+  /** motor = gerado pelo app; professor = montado por professor; manual = editado pela pessoa */
+  origem?: "motor" | "professor" | "manual";
+  parametros?: ParametrosPlano;
+  /** explicação curta da divisão escolhida */
+  explicacao?: string;
+  revisadoEm?: string | null;
+  observacaoProfissional?: string | null;
 }
 
 export type StatusSessao = "em_andamento" | "concluida" | "abandonada";

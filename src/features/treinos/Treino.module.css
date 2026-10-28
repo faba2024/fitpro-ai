@@ -1,0 +1,81 @@
+.pagina { display: flex; flex-direction: column; gap: 14px; }
+.lista { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 900px) { .lista { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; } }
+
+.destaque { border-color: var(--accent); }
+
+.cab { display: flex; align-items: center; gap: 12px; width: 100%; border: 0; background: none; padding: 0; text-align: left; }
+.letra { width: 44px; height: 44px; border-radius: 12px; background: var(--accent-soft); color: var(--accent-text); font-weight: 800; font-size: 18px; display: flex; align-items: center; justify-content: center; flex: none; }
+.info { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+.info strong { font-size: 16px; }
+.info span { font-size: 13px; color: var(--text-2); }
+.seta { width: 20px; height: 20px; color: var(--text-3); transition: transform var(--dur) var(--ease); flex: none; }
+.girada { transform: rotate(180deg); }
+
+.itens { margin: 14px 0; padding: 0; list-style: none; counter-reset: item; display: flex; flex-direction: column; }
+.itens li { counter-increment: item; display: grid; grid-template-columns: 28px 1fr; column-gap: 8px; padding: 10px 0; border-top: 1px solid var(--border); }
+.itens li::before { content: counter(item); grid-row: span 2; color: var(--text-3); font-weight: 700; font-size: 14px; padding-top: 1px; }
+.nome { font-weight: 600; font-size: 15px; }
+.link { color: var(--text); text-decoration: underline; text-decoration-color: var(--border-strong); text-underline-offset: 3px; }
+@media (hover: hover) { .link:hover { color: var(--accent-text); } }
+.meta { font-size: 13px; color: var(--text-2); }
+
+/* ficha: selos, avisos, volume */
+.selos { display: flex; flex-wrap: wrap; gap: 8px; margin-top: -8px; }
+.explicacao { font-size: 14.5px; color: var(--text-2); }
+.observacao { font-size: 14.5px; background: var(--success-soft); border-radius: 12px; padding: 10px 14px; }
+.avisos { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.avisos li { display: flex; gap: 8px; align-items: flex-start; font-size: 14px; border-radius: 10px; padding: 9px 12px; }
+.avisos svg { width: 18px; height: 18px; flex: none; margin-top: 1px; }
+.avisoErro { background: var(--danger-soft); }
+.avisoErro svg { color: var(--danger); }
+.avisoAlerta { background: var(--warning-soft); }
+.avisoAlerta svg { color: var(--warning); }
+.avisoInfo { background: var(--surface-2); color: var(--text-2); }
+.avisoInfo svg { color: var(--accent-text); }
+.rodape { display: flex; justify-content: center; }
+.notaPequena { font-size: 12.5px; color: var(--text-3); text-align: center; }
+
+.volume { width: 100%; border-collapse: collapse; font-size: 14px; }
+.volume caption { text-align: left; font-size: 13px; color: var(--text-2); margin-bottom: 8px; }
+.volume th, .volume td { padding: 8px 6px; border-top: 1px solid var(--border); text-align: left; }
+.volume thead th { border-top: 0; font-size: 12.5px; color: var(--text-3); font-weight: 600; }
+.volume td:nth-child(2) { font-variant-numeric: tabular-nums; font-weight: 600; }
+
+/* criar e editar */
+.duasColunas { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 900px) { .duasColunas { grid-template-columns: minmax(0, 360px) minmax(0, 1fr); align-items: start; } }
+.coluna { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.botoes { display: flex; flex-wrap: wrap; gap: 8px; }
+.opcaoNum {
+  min-width: 46px; min-height: 42px; padding: 0 12px; border-radius: 12px; border: 1px solid var(--border-strong);
+  background: var(--surface-2); font-weight: 600; font-size: 14.5px;
+}
+.opcaoNum[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.rotulo { font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+.gradeEquip { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 6px; }
+.salvar { position: sticky; bottom: calc(var(--nav-h) + env(safe-area-inset-bottom) + 12px); z-index: 5; display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; background: color-mix(in srgb, var(--bg) 85%, transparent); backdrop-filter: blur(8px); padding: 10px 0; }
+@media (min-width: 900px) { .salvar { bottom: 12px; } }
+.erroGeral { background: var(--danger-soft); color: var(--danger); border-radius: 12px; padding: 10px 14px; font-size: 14px; }
+
+.itemEdicao { border-top: 1px solid var(--border); padding: 12px 0; display: flex; flex-direction: column; gap: 10px; }
+.itemEdicao:first-of-type { border-top: 0; }
+.itemTopo { display: flex; align-items: center; gap: 8px; }
+.itemTopo .nome { flex: 1; min-width: 0; }
+.iconeBtn { width: 36px; height: 36px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface-2); display: inline-flex; align-items: center; justify-content: center; color: var(--text-2); flex: none; }
+.iconeBtn svg { width: 17px; height: 17px; }
+.iconeBtn:disabled { opacity: 0.35; }
+.iconeBtn.perigo { color: var(--danger); }
+.campos { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+@media (max-width: 520px) { .campos { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.num { display: flex; flex-direction: column; gap: 3px; font-size: 12px; color: var(--text-2); font-weight: 600; }
+.num input { width: 100%; min-height: 40px; padding: 0 8px; border-radius: 10px; border: 1px solid var(--border-strong); background: var(--surface-2); color: var(--text); font: inherit; font-size: 16px; text-align: center; }
+.num input[aria-invalid="true"] { border-color: var(--danger); }
+.num small { color: var(--danger); font-weight: 500; font-size: 11.5px; }
+.trocas { display: flex; flex-direction: column; gap: 6px; background: var(--surface-2); border-radius: 12px; padding: 10px; }
+.trocas p { font-size: 13px; color: var(--text-2); }
+.troca { text-align: left; min-height: 40px; padding: 8px 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface); font-size: 14px; }
+.troca small { display: block; color: var(--text-3); font-size: 12px; }
+.adicionar { display: flex; gap: 8px; margin-top: 8px; }
+.adicionar select { flex: 1; min-width: 0; min-height: 42px; padding: 0 10px; border-radius: 12px; border: 1px solid var(--border-strong); background: var(--surface-2); color: var(--text); font: inherit; font-size: 15px; }
+.tituloSessao { flex: 1; min-height: 40px; padding: 0 10px; border-radius: 10px; border: 1px solid var(--border-strong); background: var(--surface-2); color: var(--text); font: inherit; font-size: 16px; font-weight: 600; }

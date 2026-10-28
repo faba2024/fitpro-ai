@@ -10,13 +10,15 @@ import { lazy, Suspense, type ReactNode } from "react";
 // telas pesadas (catálogo de exercícios) em arquivos separados, carregados ao abrir
 const Biblioteca = lazy(() => import("@/features/exercicios/Biblioteca").then((m) => ({ default: m.Biblioteca })));
 const Detalhe = lazy(() => import("@/features/exercicios/Detalhe").then((m) => ({ default: m.Detalhe })));
+const PlanoSemanal = lazy(() => import("@/features/treinos/PlanoSemanal").then((m) => ({ default: m.PlanoSemanal })));
+const CriarTreino = lazy(() => import("@/features/treinos/CriarTreino").then((m) => ({ default: m.CriarTreino })));
+const EditarFicha = lazy(() => import("@/features/treinos/EditarFicha").then((m) => ({ default: m.EditarFicha })));
 const Anatomia = lazy(() => import("@/features/anatomia/Anatomia").then((m) => ({ default: m.Anatomia })));
 const sob = (el: ReactNode) => <Suspense fallback={<Carregando />}>{el}</Suspense>;
 import { NaoEncontrada } from "@/features/NaoEncontrada";
 import { EditarPerfil } from "@/features/perfil/EditarPerfil";
 import { Onboarding } from "@/features/perfil/Onboarding";
 import { Perfil } from "@/features/perfil/Perfil";
-import { PlanoSemanal } from "@/features/treinos/PlanoSemanal";
 import { Protegido } from "./Protegido";
 
 export const NAV = [
@@ -55,7 +57,9 @@ export const rotas: RouteObject[] = [
     ),
     children: [
       { index: true, element: <Dashboard /> },
-      { path: "treino", element: <PlanoSemanal /> },
+      { path: "treino", element: sob(<PlanoSemanal />) },
+      { path: "treino/novo", element: sob(<CriarTreino />) },
+      { path: "treino/editar", element: sob(<EditarFicha />) },
       {
         path: "treino/sessao",
         element: <EmConstrucao titulo="Modo treino" etapa={8} texto="Registro de carga e repetições por série, cronômetro de descanso, salvamento automático e retomada da sessão." />,

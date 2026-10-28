@@ -15,6 +15,7 @@ export function supabaseFalso(op: Opcoes = {}) {
   const user = { id: "user-1", email: "aluno@teste.local" };
   let sessao: { user: typeof user } | null = op.logado ? { user } : null;
   let perfil: LinhaPerfil | null = op.perfil ?? null;
+  let plano: Record<string, unknown> | null = null;
   const ouvintes = new Set<(evento: string, s: typeof sessao) => void>();
   const emitir = (evento: string) => ouvintes.forEach((f) => f(evento, sessao));
 
@@ -29,6 +30,10 @@ export function supabaseFalso(op: Opcoes = {}) {
     }),
     signIn: vi.fn(),
     signUp: vi.fn(),
+    upsertPlano: vi.fn((linha: Record<string, unknown>) => {
+      plano = { ...linha, revisado_em: null, observacao_profissional: null };
+      return Promise.resolve({ error: null });
+    }),
   };
 
   const cliente = {
@@ -61,7 +66,12 @@ export function supabaseFalso(op: Opcoes = {}) {
       },
     },
     from: (tabela: string) =>
-      tabela === "favoritos"
+      tabela === "planos"
+        ? {
+            select: () => ({ eq: () => ({ eq: () => ({ maybeSingle: () => Promise.resolve({ data: plano, error: null }) }) }) }),
+            upsert: chamadas.upsertPlano,
+          }
+        : tabela === "favoritos"
         ? {
             select: () => ({ eq: () => Promise.resolve({ data: [], error: null }) }),
             upsert: () => Promise.resolve({ error: null }),

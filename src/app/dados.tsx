@@ -2,7 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import { LocalRepositorio } from "@/data/local";
 import { DADOS_VAZIOS, type Repositorio } from "@/data/repositorio";
 import { SupabaseRepositorio } from "@/data/supabase";
-import type { DadosUsuario, PerfilCompleto } from "@/domain/tipos";
+import type { DadosUsuario, PerfilCompleto, Plano } from "@/domain/tipos";
 import { useAuth } from "./auth";
 
 type Estado = { status: "carregando" } | { status: "erro"; mensagem: string } | { status: "pronto"; dados: DadosUsuario };
@@ -20,6 +20,8 @@ interface Ctx {
   salvarPerfil: (p: PerfilCompleto) => Promise<void>;
   /** só com conta na nuvem; depois a sessão é encerrada */
   excluirConta: () => Promise<void>;
+  /** grava a ficha, torna-a ativa e recarrega os dados */
+  salvarPlano: (p: Plano) => Promise<void>;
   favoritos: ReadonlySet<string>;
   /** atualiza na hora e desfaz se o servidor recusar (o erro é repassado) */
   alternarFavorito: (exercicioId: string) => Promise<void>;
@@ -123,6 +125,11 @@ export function DadosProvider({ children, repositorio }: { children: ReactNode; 
       if (!(repo instanceof SupabaseRepositorio)) throw new Error("Entre na sua conta para excluí-la.");
       await repo.excluirConta();
       await auth.sair();
+    },
+    salvarPlano: async (plano) => {
+      if (!repo) throw new Error("Entre na sua conta para salvar a ficha.");
+      await repo.salvarPlano(plano);
+      await executar(() => repo.carregar());
     },
     favoritos,
     alternarFavorito,

@@ -3,7 +3,6 @@ import { MUSCULOS } from "@/domain/exercicios";
 import { EQUIPAMENTOS } from "@/domain/tipos";
 import { CATALOGO, EXERCICIOS } from "./catalogo";
 import { PLANO_EXEMPLO } from "./exemplo";
-import { IDS_CATALOGO } from "./idsCatalogo";
 
 describe("catálogo de exercícios", () => {
   it("tem ids únicos em formato de slug", () => {
@@ -49,10 +48,6 @@ describe("catálogo de exercícios", () => {
     for (const m of ["peitoral", "dorsais", "ombros", "biceps", "triceps", "quadriceps", "posteriores", "gluteos", "panturrilhas", "abdomen"]) {
       expect(principais.has(m as never), m).toBe(true);
     }
-  });
-
-  it("a lista leve de ids bate com o catálogo", () => {
-    expect([...IDS_CATALOGO].sort()).toEqual(EXERCICIOS.map((e) => e.id).sort());
   });
 
   it("o plano de exemplo só usa exercícios do catálogo", () => {

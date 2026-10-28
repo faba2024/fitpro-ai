@@ -179,6 +179,16 @@ RLS por papel:
 - Os 16 músculos do mapa são os mesmos do catálogo (`MUSCULOS`), então a lista de exercícios por músculo vem direto das fichas técnicas.
 - 3D (three.js) continua como melhoria opcional, caso surja um modelo com músculos separados e licença adequada.
 
+## Decisões da etapa 7
+
+- **Motor determinístico** (`src/domain/motor.ts`), sem IA. Testado em 189 combinações de dias × nível × objetivo × equipamento.
+- **Divisão:** 1 dia corpo inteiro; 2 dias corpo inteiro A/B; 3 dias corpo inteiro A/B/C (iniciante, saúde, condicionamento, emagrecimento) ou empurrar/puxar/pernas; 4 dias superiores/inferiores; 5 dias PPL + superiores/inferiores; 6 dias PPL 2×. Máximo de 6 treinos (1 dia de descanso) e de **4 para iniciantes**.
+- **Escolha de exercícios:** vagas por músculo em ordem de prioridade; só exercícios possíveis com o equipamento e no nível; preferências explícitas (ex.: stiff antes do terra, face pull para posterior de ombro); exercícios já usados no plano vão para o fim da fila (variedade entre treinos). O tempo disponível corta as últimas vagas (mín. 3, máx. 8 exercícios).
+- **Volume semanal por grupo:** séries do grupo principal contam 1 e de grupos só secundários 0,5. Limites: iniciante 4–12, intermediário 6–18, avançado 8–22. O excesso é cortado automaticamente; abdômen fica fora do limite. Mesmo grupo com 9+ séries em treinos seguidos gera aviso de recuperação.
+- **Modo conservador** (PAR-Q com "sim" ou limitações informadas): uma série a menos, nada avançado, recomendação de revisão profissional.
+- **Carga inicial** fica em branco para a pessoa definir pela técnica (1 a 3 repetições de sobra). **Progressão** por dupla progressão (`progressao.ts`), usada no modo treino.
+- **Banco:** `planos.estrutura` em jsonb (salva a ficha inteira de forma atômica). Uma ficha ativa por aluno; só o professor do aluno marca "revisada"; edição do aluno desfaz a revisão (gatilho no banco). Admin não lê fichas.
+
 ## Estado das etapas
 
 | Etapa | Status |
@@ -189,4 +199,5 @@ RLS por papel:
 | 4. Cadastro e perfil (Supabase) | ✅ login, cadastro, recuperação de senha, onboarding com PAR-Q e consentimento LGPD, perfil editável, exclusão de conta; RLS testada (supabase/tests) |
 | 5. Biblioteca de exercícios | ✅ 51 exercícios em português (passo a passo, respiração, técnica, erros, segurança, alternativas), busca e filtros, prescrição por objetivo/nível, favoritos (Supabase + local) |
 | 6. Anatomia interativa | ✅ mapa 2D próprio (SVG) frente/costas com 16 músculos clicáveis e acessíveis por teclado, exercícios principais/secundários por músculo com filtros, mapa no detalhe do exercício |
-| 7–12 | pendente |
+| 7. Motor de treinos | ✅ divisão por dias, escolha por equipamento/nível, ajuste ao tempo, controle de volume e recuperação, edição (trocar, reordenar, adicionar), regra de progressão testada, revisão profissional no banco |
+| 8–12 | pendente |

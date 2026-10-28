@@ -1,6 +1,7 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
-import type { DadosUsuario, PerfilCompleto } from "@/domain/tipos";
+import type { DadosUsuario, PerfilCompleto, Plano } from "@/domain/tipos";
 import { deLinha, paraLinha, resumo, type LinhaPerfil } from "./perfilMapper";
+import { deLinhaPlano, paraLinhaPlano, type LinhaPlano } from "./planoMapper";
 import type { Repositorio } from "./repositorio";
 
 export class ErroDados extends Error {}
@@ -19,14 +20,19 @@ export class SupabaseRepositorio implements Repositorio {
   constructor(private db: SupabaseClient, private userId: string) {}
 
   async carregar(): Promise<DadosUsuario> {
-    const { data, error } = await this.db.from("perfis").select("*").eq("id", this.userId).maybeSingle<LinhaPerfil>();
-    if (error) falha(error, "Não foi possível carregar seu perfil.");
+    const [perfilRes, planoRes] = await Promise.all([
+      this.db.from("perfis").select("*").eq("id", this.userId).maybeSingle<LinhaPerfil>(),
+      this.db.from("planos").select("*").eq("aluno_id", this.userId).eq("ativo", true).maybeSingle<LinhaPlano>(),
+    ]);
+    if (perfilRes.error) falha(perfilRes.error, "Não foi possível carregar seu perfil.");
+    if (planoRes.error) falha(planoRes.error, "Não foi possível carregar sua ficha.");
+    const data = perfilRes.data;
     const completo = data ? deLinha(data) : null;
     return {
       perfil: completo ? resumo(completo) : null,
       perfilCompleto: completo,
-      // fichas (etapa 7), sessões (etapa 8) e histórico de medidas (etapa 9) ainda não estão no banco
-      plano: null,
+      // sessões (etapa 8) e histórico de medidas (etapa 9) ainda não estão no banco
+      plano: planoRes.data ? deLinhaPlano(planoRes.data) : null,
       sessoes: [],
       medidas: completo && data?.atualizado_em ? [{ data: data.atualizado_em.slice(0, 10), pesoKg: completo.pesoKg }] : [],
     };
@@ -35,6 +41,11 @@ export class SupabaseRepositorio implements Repositorio {
   async salvarPerfil(perfil: PerfilCompleto): Promise<void> {
     const { error } = await this.db.from("perfis").upsert(paraLinha(this.userId, perfil));
     if (error) falha(error, "Não foi possível salvar seu perfil.");
+  }
+
+  async salvarPlano(plano: Plano): Promise<void> {
+    const { error } = await this.db.from("planos").upsert(paraLinhaPlano(this.userId, plano));
+    if (error) falha(error, "Não foi possível salvar sua ficha.");
   }
 
   async favoritos(): Promise<string[]> {
