@@ -23,7 +23,8 @@ Aplicativo de treino (PWA) com dashboard, fichas, biblioteca de exercícios, map
 ## Publicação
 
 - Produção: **https://fitpro-ai-taupe.vercel.app** (projeto Vercel `fitpro-ai`).
-- Publicar uma nova versão: `npx vercel deploy --prod` (a pasta já está ligada ao projeto em `.vercel/`).
+- Código: https://github.com/faba2024/fitpro-ai (privado). Cada `git push` na `main` publica em produção automaticamente; outras branches geram uma prévia.
+- Publicar manualmente, se precisar: `npx vercel deploy --prod`.
 - As variáveis `VITE_SUPABASE_URL` e `VITE_SUPABASE_ANON_KEY` estão cadastradas na Vercel para Production e Preview.
 
 ## Requisitos
