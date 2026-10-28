@@ -1,0 +1,2 @@
+.trilho { height: 8px; border-radius: 999px; background: var(--surface-3); overflow: hidden; }
+.barra { height: 100%; border-radius: inherit; background: var(--accent); transition: width 400ms var(--ease); }

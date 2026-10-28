@@ -1,0 +1,26 @@
+.campo { display: flex; flex-direction: column; gap: 6px; }
+.rotulo { font-size: 14px; font-weight: 600; color: var(--text); padding: 0; }
+.input {
+  width: 100%; min-height: 48px; padding: 0 14px; border-radius: 12px;
+  border: 1px solid var(--border-strong); background: var(--surface-2); color: var(--text);
+  font: inherit; font-size: 16px; /* 16px evita zoom no iPhone */
+}
+.input::placeholder { color: var(--text-3); }
+.input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.area { padding: 12px 14px; min-height: 96px; resize: vertical; line-height: 1.45; }
+.invalido { border-color: var(--danger); }
+.dica { font-size: 13px; color: var(--text-2); }
+.erro { font-size: 13px; color: var(--danger); font-weight: 500; }
+
+.grupo { border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+
+.opcao {
+  display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px; border-radius: 12px;
+  border: 1px solid var(--border); background: var(--surface-2); cursor: pointer;
+}
+.opcao:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); }
+.opcao:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+.opcao input { width: 20px; height: 20px; margin: 1px 0 0; accent-color: var(--accent); flex: none; }
+.opcao span { display: flex; flex-direction: column; min-width: 0; }
+.opcao strong { font-size: 15px; font-weight: 600; }
+.opcao small { font-size: 13px; color: var(--text-2); }

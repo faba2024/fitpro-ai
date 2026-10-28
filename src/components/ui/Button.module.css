@@ -1,0 +1,20 @@
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 46px; padding: 0 18px; border-radius: 12px; border: 1px solid transparent;
+  font-size: 15px; font-weight: 600; white-space: nowrap; user-select: none;
+}
+.btn:active { transform: scale(0.98); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.btn svg { width: 18px; height: 18px; flex: none; }
+
+.primario { background: var(--accent); color: var(--on-accent); }
+.secundario { background: var(--surface-2); border-color: var(--border-strong); }
+.fantasma { background: transparent; color: var(--accent-text); padding: 0 10px; }
+
+@media (hover: hover) {
+  .primario:hover:not(:disabled) { background: var(--accent-hover); }
+  .secundario:hover:not(:disabled) { background: var(--surface-3); }
+  .fantasma:hover:not(:disabled) { background: var(--accent-soft); }
+}
+
+.bloco { width: 100%; }

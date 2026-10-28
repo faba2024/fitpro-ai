@@ -1,0 +1,99 @@
+/* Tokens do FitPro AI. Escuro é o padrão da marca; claro via preferência ou ajuste. */
+:root {
+  --navy-950: #050b1a;
+  --navy-900: #0a1630;
+  --navy-850: #0e1d3d;
+  --navy-800: #13264d;
+  --navy-700: #1c3566;
+  --blue-500: #1f7bff;
+  --blue-400: #4b95ff;
+  --blue-300: #8ab9ff;
+
+  --font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --radius-sm: 10px;
+  --radius: 16px;
+  --radius-lg: 22px;
+  --dur: 180ms;
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --nav-h: 64px;
+  --side-w: 240px;
+}
+
+:root,
+:root[data-theme="escuro"] {
+  --bg: var(--navy-950);
+  --surface: var(--navy-900);
+  --surface-2: var(--navy-850);
+  --surface-3: var(--navy-800);
+  --border: rgba(138, 185, 255, 0.14);
+  --border-strong: rgba(138, 185, 255, 0.28);
+  --text: #f2f6ff;
+  --text-2: #a9b8d6;
+  --text-3: #6f80a3;
+  --accent: var(--blue-500);
+  --accent-hover: var(--blue-400);
+  --accent-soft: rgba(31, 123, 255, 0.16);
+  --accent-text: var(--blue-300);
+  --on-accent: #ffffff;
+  --success: #3ddc97;
+  --success-soft: rgba(61, 220, 151, 0.14);
+  --warning: #ffc04d;
+  --warning-soft: rgba(255, 192, 77, 0.14);
+  --danger: #ff6b6b;
+  --danger-soft: rgba(255, 107, 107, 0.14);
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --hero: linear-gradient(135deg, #12306a 0%, #0b1a3a 100%);
+  color-scheme: dark;
+}
+
+:root[data-theme="claro"] {
+  --bg: #f3f6fb;
+  --surface: #ffffff;
+  --surface-2: #f6f8fc;
+  --surface-3: #e9eef7;
+  --border: rgba(10, 22, 48, 0.1);
+  --border-strong: rgba(10, 22, 48, 0.2);
+  --text: #0a1630;
+  --text-2: #4a5a7a;
+  --text-3: #7d8aa5;
+  --accent: #1468e8;
+  --accent-hover: #0f58c9;
+  --accent-soft: rgba(20, 104, 232, 0.1);
+  --accent-text: #1158c6;
+  --success: #12955d;
+  --success-soft: rgba(18, 149, 93, 0.1);
+  --warning: #a76a00;
+  --warning-soft: rgba(225, 150, 0, 0.12);
+  --danger: #c93434;
+  --danger-soft: rgba(201, 52, 52, 0.1);
+  --shadow: 0 6px 18px rgba(10, 22, 48, 0.08);
+  --hero: linear-gradient(135deg, #1468e8 0%, #0b3fa0 100%);
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    --bg: #f3f6fb;
+    --surface: #ffffff;
+    --surface-2: #f6f8fc;
+    --surface-3: #e9eef7;
+    --border: rgba(10, 22, 48, 0.1);
+    --border-strong: rgba(10, 22, 48, 0.2);
+    --text: #0a1630;
+    --text-2: #4a5a7a;
+    --text-3: #7d8aa5;
+    --accent: #1468e8;
+    --accent-hover: #0f58c9;
+    --accent-soft: rgba(20, 104, 232, 0.1);
+    --accent-text: #1158c6;
+    --success: #12955d;
+    --success-soft: rgba(18, 149, 93, 0.1);
+    --warning: #a76a00;
+    --warning-soft: rgba(225, 150, 0, 0.12);
+    --danger: #c93434;
+    --danger-soft: rgba(201, 52, 52, 0.1);
+    --shadow: 0 6px 18px rgba(10, 22, 48, 0.08);
+    --hero: linear-gradient(135deg, #1468e8 0%, #0b3fa0 100%);
+    color-scheme: light;
+  }
+}

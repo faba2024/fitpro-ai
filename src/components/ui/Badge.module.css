@@ -1,0 +1,6 @@
+.badge { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px; white-space: nowrap; }
+.neutro { background: var(--surface-3); color: var(--text-2); }
+.destaque { background: var(--accent-soft); color: var(--accent-text); }
+.sucesso { background: var(--success-soft); color: var(--success); }
+.alerta { background: var(--warning-soft); color: var(--warning); }
+.perigo { background: var(--danger-soft); color: var(--danger); }

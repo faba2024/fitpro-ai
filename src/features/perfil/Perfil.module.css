@@ -1,0 +1,27 @@
+.pagina { display: flex; flex-direction: column; gap: 14px; max-width: 680px; }
+.dados { margin: 0; display: flex; flex-direction: column; }
+.dados > div { display: flex; justify-content: space-between; gap: 16px; padding: 10px 0; border-top: 1px solid var(--border); }
+.dados > div:first-child { border-top: 0; padding-top: 0; }
+.dados dt { color: var(--text-2); font-size: 14.5px; flex: none; }
+.dados dd { margin: 0; font-weight: 600; display: flex; gap: 8px; align-items: center; text-align: right; }
+.quebra { font-weight: 500 !important; font-size: 14.5px; justify-content: flex-end; }
+.texto { color: var(--text-2); font-size: 14.5px; margin-bottom: 12px; }
+.linha { display: flex; gap: 10px; font-size: 14.5px; color: var(--text-2); margin-bottom: 14px; }
+.linha svg { width: 20px; height: 20px; flex: none; color: var(--warning); margin-top: 2px; }
+.linha .verde { color: var(--success); }
+.linha b { color: var(--text); }
+.aviso { display: flex; gap: 8px; align-items: flex-start; margin-top: 12px; font-size: 14px; background: var(--warning-soft); border-radius: 12px; padding: 10px 12px; }
+.aviso svg { width: 18px; height: 18px; color: var(--warning); flex: none; margin-top: 2px; }
+.ok { background: var(--success-soft); color: var(--success); border-radius: 12px; padding: 10px 14px; font-size: 14px; font-weight: 600; }
+.erro { background: var(--danger-soft); color: var(--danger); border-radius: 12px; padding: 10px 14px; font-size: 14px; }
+
+.temas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.tema { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px 8px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface-2); font-size: 14px; font-weight: 600; color: var(--text-2); }
+.tema svg { width: 20px; height: 20px; }
+.ativo { border-color: var(--accent); color: var(--accent-text); background: var(--accent-soft); }
+
+.perigo { border-color: color-mix(in srgb, var(--danger) 35%, transparent); }
+.btnPerigo { color: var(--danger); }
+.btnPerigoCheio { background: var(--danger) !important; color: #fff !important; }
+.confirmar { display: flex; flex-direction: column; gap: 12px; }
+.acoes { display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }

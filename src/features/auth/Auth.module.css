@@ -1,0 +1,19 @@
+.tela {
+  min-height: 100dvh; display: flex; align-items: center; justify-content: center;
+  padding: calc(env(safe-area-inset-top) + 24px) 16px calc(env(safe-area-inset-bottom) + 24px);
+  background: radial-gradient(1200px 600px at 50% -10%, var(--accent-soft), transparent 70%), var(--bg);
+}
+.caixa { width: 100%; max-width: 420px; display: flex; flex-direction: column; gap: 18px; }
+.marca { display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; }
+.marca p { color: var(--text-2); font-size: 14px; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px 20px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 14px; }
+.titulo { font-size: 22px; font-weight: 750; letter-spacing: -0.02em; }
+.sub { color: var(--text-2); font-size: 14.5px; margin-top: -8px; }
+.form { display: flex; flex-direction: column; gap: 14px; }
+.linha { display: flex; justify-content: flex-end; margin-top: -6px; }
+.link { color: var(--accent-text); font-weight: 600; font-size: 14px; }
+.rodape { text-align: center; font-size: 14.5px; color: var(--text-2); }
+.rodape a { color: var(--accent-text); font-weight: 600; }
+.alertaErro, .alertaOk { border-radius: 12px; padding: 12px 14px; font-size: 14px; }
+.alertaErro { background: var(--danger-soft); color: var(--danger); }
+.alertaOk { background: var(--success-soft); color: var(--success); }

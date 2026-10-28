@@ -1,0 +1,10 @@
+.carregando { display: flex; flex-direction: column; gap: 14px; }
+.esqueleto { height: 90px; border-radius: var(--radius); background: var(--surface-2); animation: pulsa 1.4s ease-in-out infinite; }
+@keyframes pulsa { 50% { opacity: 0.5; } }
+
+.aviso {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--warning-soft); color: var(--text); border-radius: 12px; padding: 10px 14px; font-size: 14px;
+}
+.aviso svg { width: 18px; height: 18px; color: var(--warning); flex: none; }
+.aviso button { margin-left: auto; border: 0; background: none; color: var(--warning); font-weight: 650; padding: 4px 6px; border-radius: 8px; }
