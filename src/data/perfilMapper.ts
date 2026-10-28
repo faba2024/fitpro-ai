@@ -17,6 +17,7 @@ export interface LinhaPerfil {
   parq_alerta: boolean;
   consentimento_termos_em: string;
   consentimento_saude_em: string;
+  meta_peso_kg?: number | string | null;
   atualizado_em?: string;
 }
 
@@ -41,6 +42,7 @@ export function deLinha(l: LinhaPerfil): PerfilCompleto {
     parq,
     consentimentoTermosEm: l.consentimento_termos_em,
     consentimentoSaudeEm: l.consentimento_saude_em,
+    metaPesoKg: l.meta_peso_kg == null ? null : Number(l.meta_peso_kg),
   };
 }
 
@@ -61,6 +63,7 @@ export function paraLinha(userId: string, p: PerfilCompleto): Omit<LinhaPerfil, 
     parq_alerta: parqPedeLiberacao(p.parq),
     consentimento_termos_em: p.consentimentoTermosEm,
     consentimento_saude_em: p.consentimentoSaudeEm,
+    meta_peso_kg: p.metaPesoKg ?? null,
   };
 }
 

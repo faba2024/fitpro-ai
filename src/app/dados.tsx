@@ -3,7 +3,7 @@ import { LocalRepositorio } from "@/data/local";
 import { DADOS_VAZIOS, type RegistroExercicio, type Repositorio } from "@/data/repositorio";
 import type { HistoricoExercicio, SessaoAtiva } from "@/domain/sessao";
 import { SupabaseRepositorio } from "@/data/supabase";
-import type { DadosUsuario, PerfilCompleto, Plano } from "@/domain/tipos";
+import type { DadosUsuario, Foto, Medida, PerfilCompleto, Plano, PoseFoto } from "@/domain/tipos";
 import { useAuth } from "./auth";
 
 type Estado = { status: "carregando" } | { status: "erro"; mensagem: string } | { status: "pronto"; dados: DadosUsuario };
@@ -27,6 +27,14 @@ interface Ctx {
   salvarSessao: (s: SessaoAtiva) => Promise<void>;
   historico: (exercicioIds: string[]) => Promise<Record<string, HistoricoExercicio>>;
   historicoExercicio: (exercicioId: string, limite?: number) => Promise<RegistroExercicio[]>;
+  recordes: (exercicioIds: string[]) => Promise<Record<string, number>>;
+  /** grava medidas do dia e recarrega */
+  salvarMedida: (m: Medida) => Promise<void>;
+  excluirMedida: (id: string) => Promise<void>;
+  suportaFotos: boolean;
+  listarFotos: () => Promise<Foto[]>;
+  enviarFoto: (arquivo: Blob, data: string, pose: PoseFoto) => Promise<void>;
+  excluirFoto: (foto: Foto) => Promise<void>;
   favoritos: ReadonlySet<string>;
   /** atualiza na hora e desfaz se o servidor recusar (o erro é repassado) */
   alternarFavorito: (exercicioId: string) => Promise<void>;
@@ -97,6 +105,8 @@ export function DadosProvider({ children, repositorio }: { children: ReactNode; 
     [repo],
   );
   const historico = useCallback(async (ids: string[]) => (repo ? repo.historico(ids) : {}), [repo]);
+  const recordes = useCallback(async (ids: string[]) => (repo ? repo.recordes(ids) : {}), [repo]);
+  const listarFotos = useCallback(async () => (repo ? repo.listarFotos() : []), [repo]);
   const historicoExercicio = useCallback(async (id: string, limite?: number) => (repo ? repo.historicoExercicio(id, limite) : []), [repo]);
 
   const alternarFavorito = useCallback(
@@ -150,6 +160,26 @@ export function DadosProvider({ children, repositorio }: { children: ReactNode; 
     salvarSessao,
     historico,
     historicoExercicio,
+    recordes,
+    salvarMedida: async (m) => {
+      if (!repo) throw new Error("Sem conta conectada.");
+      await repo.salvarMedida(m);
+      await executar(() => repo.carregar());
+    },
+    excluirMedida: async (id) => {
+      if (!repo) return;
+      await repo.excluirMedida(id);
+      await executar(() => repo.carregar());
+    },
+    suportaFotos: !!repo?.suportaFotos,
+    listarFotos,
+    enviarFoto: async (arquivo, data, pose) => {
+      if (!repo) throw new Error("Sem conta conectada.");
+      await repo.enviarFoto(arquivo, data, pose);
+    },
+    excluirFoto: async (foto) => {
+      if (repo) await repo.excluirFoto(foto);
+    },
     favoritos,
     alternarFavorito,
   };

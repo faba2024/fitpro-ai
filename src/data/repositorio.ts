@@ -1,6 +1,6 @@
 import type { SerieFeita } from "@/domain/progressao";
 import type { HistoricoExercicio, SessaoAtiva } from "@/domain/sessao";
-import type { DadosUsuario, Plano } from "@/domain/tipos";
+import type { DadosUsuario, Foto, Medida, Plano, PoseFoto } from "@/domain/tipos";
 
 /**
  * Acesso a dados do usuário. As telas só conhecem esta interface;
@@ -21,6 +21,16 @@ export interface Repositorio {
   historico(exercicioIds: string[]): Promise<Record<string, HistoricoExercicio>>;
   /** treinos recentes com este exercício (mais recente primeiro) */
   historicoExercicio(exercicioId: string, limite?: number): Promise<RegistroExercicio[]>;
+  /** maior carga já registrada de cada exercício (só os que têm registro) */
+  recordes(exercicioIds: string[]): Promise<Record<string, number>>;
+  /** grava as medidas do dia (um registro por data: salvar de novo atualiza) */
+  salvarMedida(m: Medida): Promise<void>;
+  excluirMedida(id: string): Promise<void>;
+  /** fotos de evolução só existem com conta (bucket privado) */
+  readonly suportaFotos: boolean;
+  listarFotos(): Promise<Foto[]>;
+  enviarFoto(arquivo: Blob, data: string, pose: PoseFoto): Promise<void>;
+  excluirFoto(foto: Foto): Promise<void>;
 }
 
 export interface RegistroExercicio {

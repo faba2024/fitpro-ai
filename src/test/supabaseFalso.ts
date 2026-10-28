@@ -67,7 +67,7 @@ export function supabaseFalso(op: Opcoes = {}) {
       },
     },
     from: (tabela: string) =>
-      tabela === "sessoes" || tabela === "series"
+      tabela === "sessoes" || tabela === "series" || tabela === "medidas" || tabela === "fotos"
         ? {
             // consultas encadeadas (eq/neq/in/order/limit) terminam numa lista vazia
             select: () => {
@@ -99,6 +99,14 @@ export function supabaseFalso(op: Opcoes = {}) {
             select: () => ({ eq: () => ({ maybeSingle: () => Promise.resolve({ data: perfil, error: null }) }) }),
             upsert: chamadas.upsert,
           },
+    storage: {
+      from: () => ({
+        list: () => Promise.resolve({ data: [], error: null }),
+        remove: () => Promise.resolve({ data: [], error: null }),
+        upload: () => Promise.resolve({ data: {}, error: null }),
+        createSignedUrls: () => Promise.resolve({ data: [], error: null }),
+      }),
+    },
     rpc: (nome: string, args?: unknown) => (nome === "recordes" ? Promise.resolve({ data: [], error: null }) : args === undefined ? chamadas.rpc(nome) : chamadas.rpc(nome, args)),
   };
 

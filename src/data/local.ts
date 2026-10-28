@@ -1,5 +1,5 @@
 import { paraSessaoTreino, type HistoricoExercicio, type SessaoAtiva } from "@/domain/sessao";
-import type { DadosUsuario, Plano } from "@/domain/tipos";
+import type { DadosUsuario, Foto, Medida, Plano } from "@/domain/tipos";
 import { gerarExemplo } from "./exemplo";
 import { agruparPorSessao, DADOS_VAZIOS, montarHistorico, type RegistroExercicio, type Repositorio } from "./repositorio";
 
@@ -122,6 +122,33 @@ export class LocalRepositorio implements Repositorio {
   async historicoExercicio(exercicioId: string, limite = 10): Promise<RegistroExercicio[]> {
     return this.registros(exercicioId).slice(0, limite);
   }
+
+  async recordes(ids: string[]): Promise<Record<string, number>> {
+    const r: Record<string, number> = {};
+    for (const x of this.series()) if (ids.includes(x.exercicioId) && x.cargaKg != null) r[x.exercicioId] = Math.max(r[x.exercicioId] ?? 0, x.cargaKg);
+    return r;
+  }
+
+  async salvarMedida(m: Medida): Promise<void> {
+    const atual = ler(this.storage) ?? { ...DADOS_VAZIOS, exemplo: false };
+    // um registro por dia: salvar de novo na mesma data substitui
+    const nova = { ...m, id: m.id ?? `local-${m.data}` };
+    gravar(this.storage, { ...atual, medidas: [...atual.medidas.filter((x) => x.data !== m.data), nova].sort((a, b) => a.data.localeCompare(b.data)) });
+  }
+
+  async excluirMedida(id: string): Promise<void> {
+    const atual = ler(this.storage);
+    if (atual) gravar(this.storage, { ...atual, medidas: atual.medidas.filter((x) => (x.id ?? `local-${x.data}`) !== id) });
+  }
+
+  readonly suportaFotos = false;
+  async listarFotos(): Promise<Foto[]> {
+    return [];
+  }
+  async enviarFoto(): Promise<void> {
+    throw new Error("Fotos de evolução ficam disponíveis com uma conta, para ficarem protegidas e privadas.");
+  }
+  async excluirFoto(): Promise<void> {}
 
   async salvarPlano(plano: Plano): Promise<void> {
     const atual = ler(this.storage) ?? { ...DADOS_VAZIOS, exemplo: false };

@@ -1,0 +1,36 @@
+.figura { margin: 0; display: flex; flex-direction: column; gap: 6px; }
+.area { position: relative; width: 100%; }
+.svg { display: block; touch-action: pan-y; outline: none; border-radius: 8px; }
+.svg:focus-visible { box-shadow: 0 0 0 2px var(--accent); }
+
+/* grade e eixos recessivos; texto com tokens de texto, nunca com a cor da série */
+.grade { stroke: var(--border); stroke-width: 1; }
+.eixoY, .eixoX { fill: var(--text-3); font-size: 11px; font-variant-numeric: tabular-nums; }
+
+.linha { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+/* anel da cor do fundo separa o marcador da linha */
+.marcador { fill: var(--accent); stroke: var(--surface); stroke-width: 2; }
+.mira { stroke: var(--border-strong); stroke-width: 1; }
+
+.barra { fill: var(--accent); opacity: 0.85; transition: opacity var(--dur) var(--ease); }
+.barraAtiva { opacity: 1; }
+
+.referencia { stroke: var(--text-3); stroke-width: 1.5; stroke-dasharray: 4 4; }
+.rotuloRef { fill: var(--text-2); font-size: 11px; font-weight: 600; }
+
+.dica {
+  position: absolute; transform: translate(-50%, calc(-100% - 10px)); pointer-events: none; z-index: 2;
+  background: var(--surface-3); border: 1px solid var(--border-strong); border-radius: 10px; padding: 6px 10px;
+  display: flex; flex-direction: column; align-items: center; white-space: nowrap; box-shadow: var(--shadow);
+}
+.dica strong { font-size: 14px; font-variant-numeric: tabular-nums; color: var(--text); }
+.dica span { font-size: 11.5px; color: var(--text-2); }
+
+.legenda { font-size: 13px; color: var(--text-2); }
+.legenda strong { color: var(--text); font-variant-numeric: tabular-nums; }
+
+.tabela summary { font-size: 13px; color: var(--accent-text); font-weight: 600; cursor: pointer; width: fit-content; }
+.tabela table { width: 100%; border-collapse: collapse; font-size: 13.5px; margin-top: 8px; }
+.tabela th, .tabela td { text-align: left; padding: 6px 4px; border-top: 1px solid var(--border); font-weight: 500; }
+.tabela td { text-align: right; font-variant-numeric: tabular-nums; }
+.tabela thead th { font-size: 12px; color: var(--text-3); border-top: 0; }

@@ -115,6 +115,7 @@ export function paraPerfil(f: FormPerfil, agora: Date, anterior?: PerfilCompleto
     parq: f.parq,
     consentimentoTermosEm: anterior?.consentimentoTermosEm ?? iso,
     consentimentoSaudeEm: anterior?.consentimentoSaudeEm ?? iso,
+    metaPesoKg: anterior?.metaPesoKg ?? null,
   };
 }
 

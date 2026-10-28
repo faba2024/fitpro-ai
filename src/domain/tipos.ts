@@ -68,6 +68,8 @@ export interface PerfilCompleto {
   parq: Partial<Record<PerguntaParq, boolean>>;
   consentimentoTermosEm: string;
   consentimentoSaudeEm: string;
+  /** meta de peso corporal (opcional) */
+  metaPesoKg?: number | null;
 }
 
 /** Alguma resposta "sim" no PAR-Q pede liberação médica antes de treinar. */
@@ -134,11 +136,43 @@ export interface SessaoTreino {
   volumeKg: number;
 }
 
+/** Medidas corporais de um dia. Tudo opcional, exceto a data; sem id = vem do cadastro. */
 export interface Medida {
+  id?: string;
   /** AAAA-MM-DD */
   data: string;
-  pesoKg: number;
+  pesoKg: number | null;
+  gorduraPct?: number | null;
+  cinturaCm?: number | null;
+  quadrilCm?: number | null;
+  peitoCm?: number | null;
+  bracoCm?: number | null;
+  coxaCm?: number | null;
+  panturrilhaCm?: number | null;
 }
+
+export type PoseFoto = "frente" | "lado" | "costas";
+
+export interface Foto {
+  id: string;
+  /** AAAA-MM-DD */
+  data: string;
+  pose: PoseFoto;
+  caminho: string;
+  /** URL assinada de curta duração (bucket privado) */
+  url: string;
+}
+
+export const CAMPOS_MEDIDA = {
+  gorduraPct: { rotulo: "Gordura corporal", unidade: "%", min: 2, max: 70 },
+  cinturaCm: { rotulo: "Cintura", unidade: "cm", min: 40, max: 200 },
+  quadrilCm: { rotulo: "Quadril", unidade: "cm", min: 50, max: 200 },
+  peitoCm: { rotulo: "Peito", unidade: "cm", min: 50, max: 200 },
+  bracoCm: { rotulo: "Braço", unidade: "cm", min: 15, max: 70 },
+  coxaCm: { rotulo: "Coxa", unidade: "cm", min: 30, max: 100 },
+  panturrilhaCm: { rotulo: "Panturrilha", unidade: "cm", min: 20, max: 70 },
+} as const;
+export type CampoMedida = keyof typeof CAMPOS_MEDIDA;
 
 export interface DadosUsuario {
   perfil: Perfil | null;

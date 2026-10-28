@@ -53,7 +53,7 @@ function Painel({ dados }: { dados: DadosUsuario }) {
   const emAndamento = treino ? paraSessaoTreino(treino.sessao) : null;
   const proxima = plano ? proximaSessao(plano, dados.sessoes) : null;
   const ultimas = ultimasConcluidas(dados.sessoes, 3);
-  const pesos = [...dados.medidas].sort((a, b) => a.data.localeCompare(b.data));
+  const pesos = dados.medidas.filter((m): m is typeof m & { pesoKg: number } => m.pesoKg != null).sort((a, b) => a.data.localeCompare(b.data));
   const pesoAtual = pesos.at(-1);
   const variacao = pesoAtual && pesos.length > 1 ? pesoAtual.pesoKg - pesos[0]!.pesoKg : null;
 

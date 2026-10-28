@@ -60,8 +60,8 @@ describe("Dashboard", () => {
   });
 
   it("etapas futuras dizem que ainda não estão prontas", async () => {
-    renderApp("/evolucao");
-    expect(await screen.findByText("Chega na etapa 9")).toBeInTheDocument();
+    renderApp("/assistente");
+    expect(await screen.findByText("Chega na etapa 10")).toBeInTheDocument();
   });
 
   it("rota desconhecida mostra página não encontrada", async () => {

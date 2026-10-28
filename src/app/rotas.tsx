@@ -15,6 +15,7 @@ const CriarTreino = lazy(() => import("@/features/treinos/CriarTreino").then((m)
 const EditarFicha = lazy(() => import("@/features/treinos/EditarFicha").then((m) => ({ default: m.EditarFicha })));
 const ModoTreino = lazy(() => import("@/features/sessao/ModoTreino").then((m) => ({ default: m.ModoTreino })));
 const Resumo = lazy(() => import("@/features/sessao/Resumo").then((m) => ({ default: m.Resumo })));
+const Evolucao = lazy(() => import("@/features/evolucao/Evolucao").then((m) => ({ default: m.Evolucao })));
 const Anatomia = lazy(() => import("@/features/anatomia/Anatomia").then((m) => ({ default: m.Anatomia })));
 const sob = (el: ReactNode) => <Suspense fallback={<Carregando />}>{el}</Suspense>;
 import { NaoEncontrada } from "@/features/NaoEncontrada";
@@ -67,10 +68,7 @@ export const rotas: RouteObject[] = [
       { path: "exercicios", element: sob(<Biblioteca />) },
       { path: "exercicios/:id", element: sob(<Detalhe />) },
       { path: "anatomia", element: sob(<Anatomia />) },
-      {
-        path: "evolucao",
-        element: <EmConstrucao titulo="Evolução" etapa={9} texto="Gráficos de peso, medidas, cargas, volume de treino e recordes pessoais." />,
-      },
+      { path: "evolucao", element: sob(<Evolucao />) },
       {
         path: "assistente",
         element: <EmConstrucao titulo="Assistente de IA" etapa={10} texto="Tire dúvidas sobre exercícios e encontre alternativas na biblioteca, com limites claros para questões de saúde." />,
