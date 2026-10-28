@@ -60,10 +60,17 @@ export function supabaseFalso(op: Opcoes = {}) {
         return { error: null };
       },
     },
-    from: () => ({
-      select: () => ({ eq: () => ({ maybeSingle: () => Promise.resolve({ data: perfil, error: null }) }) }),
-      upsert: chamadas.upsert,
-    }),
+    from: (tabela: string) =>
+      tabela === "favoritos"
+        ? {
+            select: () => ({ eq: () => Promise.resolve({ data: [], error: null }) }),
+            upsert: () => Promise.resolve({ error: null }),
+            delete: () => ({ eq: () => ({ eq: () => Promise.resolve({ error: null }) }) }),
+          }
+        : {
+            select: () => ({ eq: () => ({ maybeSingle: () => Promise.resolve({ data: perfil, error: null }) }) }),
+            upsert: chamadas.upsert,
+          },
     rpc: chamadas.rpc,
   };
 

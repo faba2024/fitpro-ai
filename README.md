@@ -2,7 +2,13 @@
 
 Aplicativo de treino (PWA) com dashboard, fichas, biblioteca de exercícios, mapa muscular, modo treino, evolução e assistente de IA. Desenvolvido por etapas; veja o plano e o estado de cada etapa em [docs/ARQUITETURA.md](docs/ARQUITETURA.md).
 
-## O que já funciona (v0.2)
+## O que já funciona (v0.3)
+
+**Etapa 5 — biblioteca de exercícios:**
+- 51 exercícios com fotos, animação de início e fim, músculos principais e secundários, passo a passo, respiração, técnica, erros comuns, segurança e alternativas.
+- Busca sem acento, filtros por grupo, nível, objetivo, equipamentos do perfil e favoritos (os filtros ficam na URL).
+- Sugestão de séries, repetições e descanso conforme o objetivo e o nível do perfil.
+- Favoritos salvos na conta (Supabase, com RLS testada em `supabase/tests/rls_favoritos.sql`) ou no navegador no modo local.
 
 **Etapa 4 — contas (Supabase):**
 - Criar conta, entrar, recuperar e redefinir senha, sair.

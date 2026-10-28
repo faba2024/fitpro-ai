@@ -37,6 +37,20 @@ export class SupabaseRepositorio implements Repositorio {
     if (error) falha(error, "Não foi possível salvar seu perfil.");
   }
 
+  async favoritos(): Promise<string[]> {
+    const { data, error } = await this.db.from("favoritos").select("exercicio_id").eq("user_id", this.userId);
+    if (error) falha(error, "Não foi possível carregar seus favoritos.");
+    return (data ?? []).map((l: { exercicio_id: string }) => l.exercicio_id);
+  }
+
+  async definirFavorito(exercicioId: string, favorito: boolean): Promise<void> {
+    const tabela = this.db.from("favoritos");
+    const { error } = favorito
+      ? await tabela.upsert({ user_id: this.userId, exercicio_id: exercicioId }, { ignoreDuplicates: true })
+      : await tabela.delete().eq("user_id", this.userId).eq("exercicio_id", exercicioId);
+    if (error) falha(error, "Não foi possível atualizar o favorito.");
+  }
+
   async excluirConta(): Promise<void> {
     const { error } = await this.db.rpc("excluir_minha_conta");
     if (error) falha(error, "Não foi possível excluir sua conta. Tente de novo.");

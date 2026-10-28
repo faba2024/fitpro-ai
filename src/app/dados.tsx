@@ -20,6 +20,9 @@ interface Ctx {
   salvarPerfil: (p: PerfilCompleto) => Promise<void>;
   /** só com conta na nuvem; depois a sessão é encerrada */
   excluirConta: () => Promise<void>;
+  favoritos: ReadonlySet<string>;
+  /** atualiza na hora e desfaz se o servidor recusar (o erro é repassado) */
+  alternarFavorito: (exercicioId: string) => Promise<void>;
 }
 
 const DadosCtx = createContext<Ctx | null>(null);
@@ -64,6 +67,42 @@ export function DadosProvider({ children, repositorio }: { children: ReactNode; 
 
   useEffect(recarregar, [recarregar]);
 
+  const [favoritos, setFavoritos] = useState<ReadonlySet<string>>(new Set());
+  useEffect(() => {
+    setFavoritos(new Set());
+    if (!repo) return;
+    let vivo = true;
+    repo
+      .favoritos()
+      .then((ids) => vivo && setFavoritos(new Set(ids)))
+      .catch(() => {}); // sem favoritos não impede o uso; a próxima ação mostra o erro
+    return () => {
+      vivo = false;
+    };
+  }, [repo]);
+
+  const alternarFavorito = useCallback(
+    async (id: string) => {
+      if (!repo) return;
+      const marcar = !favoritos.has(id);
+      const trocar = (sim: boolean) =>
+        setFavoritos((atual) => {
+          const novo = new Set(atual);
+          if (sim) novo.add(id);
+          else novo.delete(id);
+          return novo;
+        });
+      trocar(marcar);
+      try {
+        await repo.definirFavorito(id, marcar);
+      } catch (e) {
+        trocar(!marcar);
+        throw e;
+      }
+    },
+    [repo, favoritos],
+  );
+
   const valor: Ctx = {
     estado,
     modo: repo?.modo ?? (auth.estado.status === "desativado" ? "local" : "nuvem"),
@@ -85,6 +124,8 @@ export function DadosProvider({ children, repositorio }: { children: ReactNode; 
       await repo.excluirConta();
       await auth.sair();
     },
+    favoritos,
+    alternarFavorito,
   };
 
   return <DadosCtx.Provider value={valor}>{children}</DadosCtx.Provider>;

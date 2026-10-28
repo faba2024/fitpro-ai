@@ -29,9 +29,9 @@ export const PLANO_EXEMPLO: Plano = {
       titulo: "Costas e bíceps",
       itens: [
         it("puxada-frente", "Puxada na frente", "Costas", 4, 8, 10, 90),
-        it("remada-curvada", "Remada curvada com barra", "Costas", 3, 8, 10, 90),
+        it("remada-curvada-barra", "Remada curvada com barra", "Costas", 3, 8, 10, 90),
         it("remada-baixa", "Remada baixa no cabo", "Costas", 3, 10, 12, 75),
-        it("rosca-direta", "Rosca direta com barra", "Bíceps", 3, 10, 12, 60),
+        it("rosca-direta-barra", "Rosca direta com barra", "Bíceps", 3, 10, 12, 60),
         it("rosca-martelo", "Rosca martelo", "Bíceps", 3, 10, 12, 60),
       ],
     },
@@ -42,7 +42,7 @@ export const PLANO_EXEMPLO: Plano = {
       itens: [
         it("agachamento-livre", "Agachamento livre", "Pernas", 4, 6, 8, 120),
         it("leg-press", "Leg press 45°", "Pernas", 3, 10, 12, 90),
-        it("cadeira-flexora", "Cadeira flexora", "Pernas", 3, 10, 12, 60),
+        it("mesa-flexora", "Mesa flexora", "Pernas", 3, 10, 12, 60),
         it("desenvolvimento-halteres", "Desenvolvimento com halteres", "Ombros", 3, 8, 10, 75),
         it("elevacao-lateral", "Elevação lateral", "Ombros", 3, 12, 15, 60),
       ],

@@ -3,6 +3,7 @@ import { gerarExemplo } from "./exemplo";
 import { DADOS_VAZIOS, type Repositorio } from "./repositorio";
 
 const CHAVE = "fitpro:dados:v1";
+const CHAVE_FAVORITOS = "fitpro:favoritos:v1";
 
 interface Armazenado extends DadosUsuario {
   exemplo: boolean;
@@ -59,7 +60,26 @@ export class LocalRepositorio implements Repositorio {
   async limpar(): Promise<DadosUsuario> {
     try {
       this.storage.removeItem(CHAVE);
+      this.storage.removeItem(CHAVE_FAVORITOS);
     } catch {}
     return DADOS_VAZIOS;
+  }
+
+  async favoritos(): Promise<string[]> {
+    try {
+      const lista = JSON.parse(this.storage.getItem(CHAVE_FAVORITOS) ?? "[]") as unknown;
+      return Array.isArray(lista) ? lista.filter((x): x is string => typeof x === "string") : [];
+    } catch {
+      return [];
+    }
+  }
+
+  async definirFavorito(exercicioId: string, favorito: boolean): Promise<void> {
+    const atual = new Set(await this.favoritos());
+    if (favorito) atual.add(exercicioId);
+    else atual.delete(exercicioId);
+    try {
+      this.storage.setItem(CHAVE_FAVORITOS, JSON.stringify([...atual]));
+    } catch {}
   }
 }

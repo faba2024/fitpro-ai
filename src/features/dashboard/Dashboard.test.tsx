@@ -57,8 +57,8 @@ describe("Dashboard", () => {
   });
 
   it("etapas futuras dizem que ainda não estão prontas", async () => {
-    renderApp("/exercicios");
-    expect(await screen.findByText("Chega na etapa 5")).toBeInTheDocument();
+    renderApp("/anatomia");
+    expect(await screen.findByText("Chega na etapa 6")).toBeInTheDocument();
   });
 
   it("rota desconhecida mostra página não encontrada", async () => {

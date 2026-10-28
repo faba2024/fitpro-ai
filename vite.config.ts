@@ -30,6 +30,17 @@ export default defineConfig({
     }),
   ],
   resolve: { alias: { "@": fileURLToPath(new URL("./src", import.meta.url)) } },
+  build: {
+    rollupOptions: {
+      output: {
+        // bibliotecas em arquivos próprios: mudam pouco e ficam em cache entre versões do app
+        manualChunks: (id) => {
+          if (id.includes("node_modules/@supabase")) return "supabase";
+          if (/node_modules\/(react|react-dom|react-router|scheduler)\//.test(id)) return "react";
+        },
+      },
+    },
+  },
   test: {
     environment: "jsdom",
     globals: true,

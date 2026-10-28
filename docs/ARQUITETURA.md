@@ -167,6 +167,12 @@ RLS por papel:
 - Admin da academia não lê perfis (dados de saúde); professor lê só os alunos vinculados a ele.
 - Funções de permissão ficam no schema `privado`, fora da API pública.
 
+## Decisões da etapa 5
+
+- O catálogo global fica versionado no código (`src/data/catalogo.ts`), com ids estáveis: funciona offline, sem latência e com teste automático de integridade. No banco ficam só os favoritos (`favoritos.exercicio_id`). Exercícios próprios de academias terão tabela na etapa 11.
+- Fotos do acervo free-exercise-db (The Unlicense) servidas pelo jsDelivr, presas ao commit `f00c92c`. Os textos são próprios, em português, não traduções literais.
+- Prescrição padrão por objetivo e tipo de exercício (faixas usuais do treinamento resistido); iniciante faz uma série a menos. A carga é escolhida pela técnica e pelo esforço (1 a 3 repetições de sobra), nunca por idade ou peso.
+
 ## Estado das etapas
 
 | Etapa | Status |
@@ -175,4 +181,5 @@ RLS por papel:
 | 2. Identidade visual e componentes | ✅ v1 |
 | 3. Navegação e dashboard | ✅ v1 (modo local) — 29 testes passando |
 | 4. Cadastro e perfil (Supabase) | ✅ login, cadastro, recuperação de senha, onboarding com PAR-Q e consentimento LGPD, perfil editável, exclusão de conta; RLS testada (supabase/tests) |
-| 5–12 | pendente |
+| 5. Biblioteca de exercícios | ✅ 51 exercícios em português (passo a passo, respiração, técnica, erros, segurança, alternativas), busca e filtros, prescrição por objetivo/nível, favoritos (Supabase + local) |
+| 6–12 | pendente |

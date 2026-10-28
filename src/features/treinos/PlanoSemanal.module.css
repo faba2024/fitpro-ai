@@ -16,4 +16,6 @@
 .itens li { counter-increment: item; display: grid; grid-template-columns: 28px 1fr; column-gap: 8px; padding: 10px 0; border-top: 1px solid var(--border); }
 .itens li::before { content: counter(item); grid-row: span 2; color: var(--text-3); font-weight: 700; font-size: 14px; padding-top: 1px; }
 .nome { font-weight: 600; font-size: 15px; }
+.link { color: var(--text); text-decoration: underline; text-decoration-color: var(--border-strong); text-underline-offset: 3px; }
+@media (hover: hover) { .link:hover { color: var(--accent-text); } }
 .meta { font-size: 13px; color: var(--text-2); }

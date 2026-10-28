@@ -4,6 +4,13 @@ import { AppShell } from "@/components/layout/AppShell";
 import { CriarConta, Entrar, RecuperarSenha, RedefinirSenha } from "@/features/auth/paginas";
 import { Dashboard } from "@/features/dashboard/Dashboard";
 import { EmConstrucao } from "@/features/EmConstrucao";
+import { Carregando } from "@/features/Estados";
+import { lazy, Suspense, type ReactNode } from "react";
+
+// telas pesadas (catálogo de exercícios) em arquivos separados, carregados ao abrir
+const Biblioteca = lazy(() => import("@/features/exercicios/Biblioteca").then((m) => ({ default: m.Biblioteca })));
+const Detalhe = lazy(() => import("@/features/exercicios/Detalhe").then((m) => ({ default: m.Detalhe })));
+const sob = (el: ReactNode) => <Suspense fallback={<Carregando />}>{el}</Suspense>;
 import { NaoEncontrada } from "@/features/NaoEncontrada";
 import { EditarPerfil } from "@/features/perfil/EditarPerfil";
 import { Onboarding } from "@/features/perfil/Onboarding";
@@ -49,10 +56,8 @@ export const rotas: RouteObject[] = [
         path: "treino/sessao",
         element: <EmConstrucao titulo="Modo treino" etapa={8} texto="Registro de carga e repetições por série, cronômetro de descanso, salvamento automático e retomada da sessão." />,
       },
-      {
-        path: "exercicios",
-        element: <EmConstrucao titulo="Exercícios" etapa={5} texto="Biblioteca com fotos, músculos trabalhados, passo a passo, erros comuns e alternativas." />,
-      },
+      { path: "exercicios", element: sob(<Biblioteca />) },
+      { path: "exercicios/:id", element: sob(<Detalhe />) },
       {
         path: "anatomia",
         element: <EmConstrucao titulo="Mapa muscular" etapa={6} texto="Corpo humano de frente e de costas com músculos clicáveis e os exercícios de cada região." />,

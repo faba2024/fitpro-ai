@@ -1,5 +1,7 @@
 import { ChevronDown, Dumbbell, Play } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router";
+import { IDS_CATALOGO } from "@/data/idsCatalogo";
 import { useDados } from "@/app/dados";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Badge, ButtonLink, Card, EmptyState } from "@/components/ui";
@@ -66,7 +68,11 @@ function Sessao({ sessao, proxima }: { sessao: PlanoSessao; proxima: boolean }) 
           <ol className={s.itens}>
             {sessao.itens.map((it) => (
               <li key={it.exercicioId}>
-                <span className={s.nome}>{it.nome}</span>
+                {IDS_CATALOGO.has(it.exercicioId) ? (
+                  <Link to={`/exercicios/${it.exercicioId}`} className={`${s.nome} ${s.link}`}>{it.nome}</Link>
+                ) : (
+                  <span className={s.nome}>{it.nome}</span>
+                )}
                 <span className={s.meta}>
                   {it.series} × {it.repsMin === it.repsMax ? it.repsMin : `${it.repsMin}–${it.repsMax}`} · descanso {it.descansoS}s
                 </span>
