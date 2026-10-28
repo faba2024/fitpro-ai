@@ -2,8 +2,9 @@ node_modules
 dist
 dev-dist
 coverage
-.env
-.env.local
-.env.*.local
 .vercel
 *.tsbuildinfo
+
+# segredos e variáveis locais (o exemplo sem valores fica versionado)
+.env*
+!.env.example

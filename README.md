@@ -20,6 +20,12 @@ Aplicativo de treino (PWA) com dashboard, fichas, biblioteca de exercícios, map
 - **Modo local**: sem Supabase configurado, os dados ficam só no navegador, e a tela avisa. Há um botão para explorar com dados de exemplo, sempre identificados como tal.
 - Telas das próximas etapas dizem que ainda não estão prontas, sem simular a função.
 
+## Publicação
+
+- Produção: **https://fitpro-ai-taupe.vercel.app** (projeto Vercel `fitpro-ai`).
+- Publicar uma nova versão: `npx vercel deploy --prod` (a pasta já está ligada ao projeto em `.vercel/`).
+- As variáveis `VITE_SUPABASE_URL` e `VITE_SUPABASE_ANON_KEY` estão cadastradas na Vercel para Production e Preview.
+
 ## Requisitos
 
 - Node.js 20 ou superior (testado com 24)
