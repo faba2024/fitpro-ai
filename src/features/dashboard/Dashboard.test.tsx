@@ -5,6 +5,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { DadosProvider } from "@/app/dados";
 import { rotas } from "@/app/rotas";
 import { TemaProvider } from "@/app/tema";
+import { TreinoProvider } from "@/app/treinoAtivo";
 import { LocalRepositorio } from "@/data/local";
 
 // Roteador declarativo nos testes: o data router cria Request com o AbortSignal do jsdom,
@@ -17,9 +18,11 @@ function renderApp(caminho = "/") {
   return render(
     <TemaProvider>
       <DadosProvider repositorio={new LocalRepositorio(localStorage)}>
-        <MemoryRouter initialEntries={[caminho]}>
+        <TreinoProvider>
+          <MemoryRouter initialEntries={[caminho]}>
           <Rotas />
         </MemoryRouter>
+          </TreinoProvider>
       </DadosProvider>
     </TemaProvider>,
   );
@@ -57,8 +60,8 @@ describe("Dashboard", () => {
   });
 
   it("etapas futuras dizem que ainda não estão prontas", async () => {
-    renderApp("/treino/sessao");
-    expect(await screen.findByText("Chega na etapa 8")).toBeInTheDocument();
+    renderApp("/evolucao");
+    expect(await screen.findByText("Chega na etapa 9")).toBeInTheDocument();
   });
 
   it("rota desconhecida mostra página não encontrada", async () => {

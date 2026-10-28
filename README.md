@@ -2,7 +2,14 @@
 
 Aplicativo de treino (PWA) com dashboard, fichas, biblioteca de exercícios, mapa muscular, modo treino, evolução e assistente de IA. Desenvolvido por etapas; veja o plano e o estado de cada etapa em [docs/ARQUITETURA.md](docs/ARQUITETURA.md).
 
-## O que já funciona (v0.5)
+## O que já funciona (v0.6)
+
+**Etapa 8 — modo treino:**
+- Escolha do treino, exercícios na ordem da ficha, registro de carga e repetições por série com sugestão de carga do último treino.
+- Cronômetro de descanso (±15 s, pular), pausa, trocar exercício, pular, adicionar e remover série.
+- Salva a cada toque no aparelho e retoma depois de fechar ou recarregar; sincroniza com a conta e guarda numa fila quando está sem internet.
+- Resumo com duração, séries, volume, recordes e o que fazer na próxima vez; histórico de cada exercício na biblioteca.
+- Banco: `sessoes` e `series` com RLS testada (`supabase/tests/rls_sessoes.sql`).
 
 **Etapa 7 — criador de treinos:**
 - Monta a ficha a partir do perfil (objetivo, nível, dias, tempo, equipamentos), com prévia ao vivo, explicação da divisão e tabela de volume semanal por grupo.

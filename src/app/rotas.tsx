@@ -13,6 +13,8 @@ const Detalhe = lazy(() => import("@/features/exercicios/Detalhe").then((m) => (
 const PlanoSemanal = lazy(() => import("@/features/treinos/PlanoSemanal").then((m) => ({ default: m.PlanoSemanal })));
 const CriarTreino = lazy(() => import("@/features/treinos/CriarTreino").then((m) => ({ default: m.CriarTreino })));
 const EditarFicha = lazy(() => import("@/features/treinos/EditarFicha").then((m) => ({ default: m.EditarFicha })));
+const ModoTreino = lazy(() => import("@/features/sessao/ModoTreino").then((m) => ({ default: m.ModoTreino })));
+const Resumo = lazy(() => import("@/features/sessao/Resumo").then((m) => ({ default: m.Resumo })));
 const Anatomia = lazy(() => import("@/features/anatomia/Anatomia").then((m) => ({ default: m.Anatomia })));
 const sob = (el: ReactNode) => <Suspense fallback={<Carregando />}>{el}</Suspense>;
 import { NaoEncontrada } from "@/features/NaoEncontrada";
@@ -60,10 +62,8 @@ export const rotas: RouteObject[] = [
       { path: "treino", element: sob(<PlanoSemanal />) },
       { path: "treino/novo", element: sob(<CriarTreino />) },
       { path: "treino/editar", element: sob(<EditarFicha />) },
-      {
-        path: "treino/sessao",
-        element: <EmConstrucao titulo="Modo treino" etapa={8} texto="Registro de carga e repetições por série, cronômetro de descanso, salvamento automático e retomada da sessão." />,
-      },
+      { path: "treino/sessao", element: sob(<ModoTreino />) },
+      { path: "treino/resumo", element: sob(<Resumo />) },
       { path: "exercicios", element: sob(<Biblioteca />) },
       { path: "exercicios/:id", element: sob(<Detalhe />) },
       { path: "anatomia", element: sob(<Anatomia />) },

@@ -104,3 +104,8 @@
 .alternativa span { display: block; font-size: 12.5px; color: var(--text-2); }
 .linhaIcone { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; color: var(--text-2); }
 .linhaIcone svg { width: 20px; height: 20px; flex: none; color: var(--text-3); }
+
+.historico { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.historico li { display: flex; gap: 12px; padding: 8px 0; border-top: 1px solid var(--border); font-size: 14.5px; font-variant-numeric: tabular-nums; }
+.historico li:first-child { border-top: 0; padding-top: 0; }
+.histData { color: var(--text-2); min-width: 56px; }

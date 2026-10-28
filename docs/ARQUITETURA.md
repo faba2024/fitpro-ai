@@ -189,6 +189,15 @@ RLS por papel:
 - **Carga inicial** fica em branco para a pessoa definir pela técnica (1 a 3 repetições de sobra). **Progressão** por dupla progressão (`progressao.ts`), usada no modo treino.
 - **Banco:** `planos.estrutura` em jsonb (salva a ficha inteira de forma atômica). Uma ficha ativa por aluno; só o professor do aluno marca "revisada"; edição do aluno desfaz a revisão (gatilho no banco). Admin não lê fichas.
 
+## Decisões da etapa 8
+
+- **Estado da sessão em funções puras** (`src/domain/sessao.ts`) com o tempo como parâmetro: o cronômetro e o descanso usam horários absolutos, então sobrevivem a recarregar a página e a pausas.
+- **Aparelho primeiro:** cada toque grava o treino em `localStorage` (por conta: `fitpro:treino-ativo:<id>`) antes de qualquer rede. A sincronização com o Supabase acontece em seguida (1,5 s depois da última mudança) por **upsert com ids gerados no aparelho**, então reenviar não duplica. Séries desfeitas são apagadas do banco na sincronização seguinte.
+- **Fila offline:** ao concluir, o treino entra numa fila (`fitpro:sync-pendente:<id>`) e só sai dela depois que o banco confirma; a fila é reenviada ao abrir o app e quando a conexão volta. A tela mostra o estado ("salvo no aparelho", "enviando", "salvo na sua conta", "sem conexão").
+- **Banco:** `sessoes` (resumo do treino) e `series` (cada série), com gatilho que impede série em sessão de outra pessoa; professor do aluno só lê; admin não lê. `recordes(text[])` (security invoker) devolve a maior carga por exercício.
+- **Sugestão de carga** no início de cada exercício vem do último treino daquele exercício pela dupla progressão; o resumo mostra recordes (só quando havia histórico) e a sugestão para a próxima vez.
+- Tela ligada durante o treino com Wake Lock quando o navegador permite; fim do descanso avisa com vibração e um bipe curto.
+
 ## Estado das etapas
 
 | Etapa | Status |
@@ -200,4 +209,5 @@ RLS por papel:
 | 5. Biblioteca de exercícios | ✅ 51 exercícios em português (passo a passo, respiração, técnica, erros, segurança, alternativas), busca e filtros, prescrição por objetivo/nível, favoritos (Supabase + local) |
 | 6. Anatomia interativa | ✅ mapa 2D próprio (SVG) frente/costas com 16 músculos clicáveis e acessíveis por teclado, exercícios principais/secundários por músculo com filtros, mapa no detalhe do exercício |
 | 7. Motor de treinos | ✅ divisão por dias, escolha por equipamento/nível, ajuste ao tempo, controle de volume e recuperação, edição (trocar, reordenar, adicionar), regra de progressão testada, revisão profissional no banco |
-| 8–12 | pendente |
+| 8. Modo treino | ✅ registro de carga/reps por série, cronômetro de descanso, pausa, trocar/pular/adicionar série, salvamento a cada toque no aparelho, retomada após fechar, sincronização idempotente com fila offline, resumo com recordes e sugestão de carga, histórico no exercício |
+| 9–12 | pendente |

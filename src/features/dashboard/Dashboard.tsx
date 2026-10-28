@@ -4,7 +4,9 @@ import { useDados } from "@/app/dados";
 import { Badge, Button, ButtonLink, Card, EmptyState, ProgressBar } from "@/components/ui";
 import { OBJETIVOS, type DadosUsuario } from "@/domain/tipos";
 import { resumoSemanal, type DiaSemana } from "@/domain/semana";
-import { duracaoEstimadaMin, duracaoRealMin, gruposDaSessao, proximaSessao, sessaoEmAndamento, ultimasConcluidas } from "@/domain/treino";
+import { duracaoEstimadaMin, duracaoRealMin, gruposDaSessao, proximaSessao, ultimasConcluidas } from "@/domain/treino";
+import { useTreino } from "@/app/treinoAtivo";
+import { paraSessaoTreino } from "@/domain/sessao";
 import { AvisoExemplo } from "@/features/AvisoExemplo";
 import { Carregando, ErroCarga } from "@/features/Estados";
 import s from "./Dashboard.module.css";
@@ -46,7 +48,9 @@ function Painel({ dados }: { dados: DadosUsuario }) {
   const plano = dados.plano;
   const hoje = new Date();
   const semana = resumoSemanal(dados.sessoes, hoje, perfil.metaSemanal);
-  const emAndamento = sessaoEmAndamento(dados.sessoes);
+  // o treino em andamento vive no aparelho (sobrevive a fechar o app)
+  const { treino } = useTreino();
+  const emAndamento = treino ? paraSessaoTreino(treino.sessao) : null;
   const proxima = plano ? proximaSessao(plano, dados.sessoes) : null;
   const ultimas = ultimasConcluidas(dados.sessoes, 3);
   const pesos = [...dados.medidas].sort((a, b) => a.data.localeCompare(b.data));

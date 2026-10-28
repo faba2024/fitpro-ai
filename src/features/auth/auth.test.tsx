@@ -7,6 +7,7 @@ import { AuthProvider, mensagemAuth } from "@/app/auth";
 import { DadosProvider } from "@/app/dados";
 import { rotas } from "@/app/rotas";
 import { TemaProvider } from "@/app/tema";
+import { TreinoProvider } from "@/app/treinoAtivo";
 import { paraLinha } from "@/data/perfilMapper";
 import { PARQ } from "@/domain/tipos";
 import { supabaseFalso } from "@/test/supabaseFalso";
@@ -20,9 +21,11 @@ function renderApp(cliente: SupabaseClient, caminho = "/") {
     <TemaProvider>
       <AuthProvider cliente={cliente}>
         <DadosProvider>
+          <TreinoProvider>
           <MemoryRouter initialEntries={[caminho]}>
             <Rotas />
           </MemoryRouter>
+          </TreinoProvider>
         </DadosProvider>
       </AuthProvider>
     </TemaProvider>,

@@ -1,9 +1,21 @@
+import { paraSessaoTreino, type HistoricoExercicio, type SessaoAtiva } from "@/domain/sessao";
 import type { DadosUsuario, Plano } from "@/domain/tipos";
 import { gerarExemplo } from "./exemplo";
-import { DADOS_VAZIOS, type Repositorio } from "./repositorio";
+import { agruparPorSessao, DADOS_VAZIOS, montarHistorico, type RegistroExercicio, type Repositorio } from "./repositorio";
 
 const CHAVE = "fitpro:dados:v1";
 const CHAVE_FAVORITOS = "fitpro:favoritos:v1";
+const CHAVE_SERIES = "fitpro:series:v1";
+
+interface SerieLocal {
+  id: string;
+  sessaoId: string;
+  exercicioId: string;
+  ordem: number;
+  cargaKg: number | null;
+  reps: number;
+  concluidaEm: string;
+}
 
 interface Armazenado extends DadosUsuario {
   exemplo: boolean;
@@ -61,8 +73,54 @@ export class LocalRepositorio implements Repositorio {
     try {
       this.storage.removeItem(CHAVE);
       this.storage.removeItem(CHAVE_FAVORITOS);
+      this.storage.removeItem(CHAVE_SERIES);
     } catch {}
     return DADOS_VAZIOS;
+  }
+
+  private series(): SerieLocal[] {
+    try {
+      const l = JSON.parse(this.storage.getItem(CHAVE_SERIES) ?? "[]") as unknown;
+      return Array.isArray(l) ? (l as SerieLocal[]) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  async salvarSessao(s: SessaoAtiva): Promise<void> {
+    const feitas: SerieLocal[] = s.exercicios.flatMap((e) =>
+      e.series
+        .map((x, ordem) => ({ x, ordem }))
+        .filter(({ x }) => x.feita && x.reps != null)
+        .map(({ x, ordem }) => ({ id: x.id, sessaoId: s.id, exercicioId: e.exercicioId, ordem, cargaKg: x.cargaKg, reps: x.reps!, concluidaEm: x.feitaEm! })),
+    );
+    // substitui as séries desta sessão (séries desfeitas somem)
+    const outras = this.series().filter((x) => x.sessaoId !== s.id);
+    try {
+      this.storage.setItem(CHAVE_SERIES, JSON.stringify([...outras, ...feitas]));
+    } catch {}
+    if (s.status === "em_andamento") return;
+    const atual = ler(this.storage) ?? { ...DADOS_VAZIOS, exemplo: false };
+    const resumo = paraSessaoTreino(s);
+    gravar(this.storage, { ...atual, sessoes: [resumo, ...atual.sessoes.filter((x) => x.id !== s.id)] });
+  }
+
+  private registros(exercicioId: string): RegistroExercicio[] {
+    const linhas = this.series()
+      .filter((x) => x.exercicioId === exercicioId)
+      .sort((a, b) => b.concluidaEm.localeCompare(a.concluidaEm));
+    return agruparPorSessao(linhas, Number.POSITIVE_INFINITY);
+  }
+
+  async historico(ids: string[]): Promise<Record<string, HistoricoExercicio>> {
+    const porId = Object.fromEntries(ids.map((id) => [id, this.registros(id)]));
+    const recordes: Record<string, number> = {};
+    for (const x of this.series()) if (ids.includes(x.exercicioId) && x.cargaKg != null) recordes[x.exercicioId] = Math.max(recordes[x.exercicioId] ?? 0, x.cargaKg);
+    return montarHistorico(ids, porId, recordes);
+  }
+
+  async historicoExercicio(exercicioId: string, limite = 10): Promise<RegistroExercicio[]> {
+    return this.registros(exercicioId).slice(0, limite);
   }
 
   async salvarPlano(plano: Plano): Promise<void> {

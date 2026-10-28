@@ -5,6 +5,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { DadosProvider } from "@/app/dados";
 import { rotas } from "@/app/rotas";
 import { TemaProvider } from "@/app/tema";
+import { TreinoProvider } from "@/app/treinoAtivo";
 import { LocalRepositorio } from "@/data/local";
 import { MUSCULOS, type Musculo } from "@/domain/exercicios";
 import { caminhos, curva, SILHUETA, vistasDoMusculo } from "./regioes";
@@ -17,9 +18,11 @@ function renderApp(caminho: string) {
   return render(
     <TemaProvider>
       <DadosProvider repositorio={new LocalRepositorio(localStorage)}>
-        <MemoryRouter initialEntries={[caminho]}>
+        <TreinoProvider>
+          <MemoryRouter initialEntries={[caminho]}>
           <Rotas />
         </MemoryRouter>
+          </TreinoProvider>
       </DadosProvider>
     </TemaProvider>,
   );

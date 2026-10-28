@@ -3,6 +3,7 @@ import { AuthProvider } from "./auth";
 import { DadosProvider } from "./dados";
 import { rotas } from "./rotas";
 import { TemaProvider } from "./tema";
+import { TreinoProvider } from "./treinoAtivo";
 
 const router = createBrowserRouter(rotas);
 
@@ -11,7 +12,9 @@ export function App() {
     <TemaProvider>
       <AuthProvider>
         <DadosProvider>
-          <RouterProvider router={router} />
+          <TreinoProvider>
+            <RouterProvider router={router} />
+          </TreinoProvider>
         </DadosProvider>
       </AuthProvider>
     </TemaProvider>

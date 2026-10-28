@@ -16,6 +16,7 @@ import {
 } from "@/domain/exercicios";
 import { EQUIPAMENTOS, NIVEIS, OBJETIVOS } from "@/domain/tipos";
 import { NaoEncontrada } from "@/features/NaoEncontrada";
+import type { RegistroExercicio } from "@/data/repositorio";
 import { MapaExercicio } from "@/features/anatomia/MapaExercicio";
 import { BotaoFavorito, ImagemExercicio, TOM_NIVEL } from "./comuns";
 import s from "./Exercicios.module.css";
@@ -49,6 +50,45 @@ function Demonstracao({ ex }: { ex: Exercicio }) {
         </div>
       </figcaption>
     </figure>
+  );
+}
+
+const fmtKg = new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 1 });
+
+/** Últimos treinos com este exercício (cargas e repetições registradas no modo treino). */
+function HistoricoCard({ exercicioId, porTempo }: { exercicioId: string; porTempo: boolean }) {
+  const { historicoExercicio } = useDados();
+  const [estado, setEstado] = useState<{ status: "carregando" } | { status: "erro" } | { status: "pronto"; lista: RegistroExercicio[] }>({ status: "carregando" });
+
+  useEffect(() => {
+    let vivo = true;
+    setEstado({ status: "carregando" });
+    historicoExercicio(exercicioId, 5)
+      .then((lista) => vivo && setEstado({ status: "pronto", lista }))
+      .catch(() => vivo && setEstado({ status: "erro" }));
+    return () => {
+      vivo = false;
+    };
+  }, [exercicioId, historicoExercicio]);
+
+  return (
+    <Card titulo="Seu histórico">
+      {estado.status === "carregando" && <p className={s.mini}>Carregando…</p>}
+      {estado.status === "erro" && <p className={s.mini}>Não foi possível carregar o histórico agora.</p>}
+      {estado.status === "pronto" && !estado.lista.length && (
+        <p className={s.linhaIcone}><History aria-hidden="true" /> Você ainda não registrou este exercício. As cargas e repetições aparecem aqui depois do primeiro treino.</p>
+      )}
+      {estado.status === "pronto" && estado.lista.length > 0 && (
+        <ul className={s.historico}>
+          {estado.lista.map((r) => (
+            <li key={r.sessaoId}>
+              <span className={s.histData}>{new Date(r.data).toLocaleDateString("pt-BR", { day: "2-digit", month: "short" })}</span>
+              <span>{r.series.map((x) => (porTempo ? `${x.reps}s` : x.cargaKg ? `${fmtKg.format(x.cargaKg)}×${x.reps}` : `${x.reps}`)).join(" · ")}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </Card>
   );
 }
 
@@ -171,9 +211,7 @@ export function Detalhe() {
         </section>
       )}
 
-      <Card>
-        <p className={s.linhaIcone}><History aria-hidden="true" /> Seu histórico com este exercício (cargas e repetições) aparece quando o modo treino, da etapa 8, estiver pronto.</p>
-      </Card>
+      <HistoricoCard exercicioId={ex.id} porTempo={!!ex.porTempo} />
 
       <p className={s.credito}>{LICENCA_ACERVO}</p>
     </article>

@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { LocalRepositorio } from "@/data/local";
-import { DADOS_VAZIOS, type Repositorio } from "@/data/repositorio";
+import { DADOS_VAZIOS, type RegistroExercicio, type Repositorio } from "@/data/repositorio";
+import type { HistoricoExercicio, SessaoAtiva } from "@/domain/sessao";
 import { SupabaseRepositorio } from "@/data/supabase";
 import type { DadosUsuario, PerfilCompleto, Plano } from "@/domain/tipos";
 import { useAuth } from "./auth";
@@ -22,6 +23,10 @@ interface Ctx {
   excluirConta: () => Promise<void>;
   /** grava a ficha, torna-a ativa e recarrega os dados */
   salvarPlano: (p: Plano) => Promise<void>;
+  /** grava a sessão de treino (sem recarregar; o modo treino chama a cada mudança) */
+  salvarSessao: (s: SessaoAtiva) => Promise<void>;
+  historico: (exercicioIds: string[]) => Promise<Record<string, HistoricoExercicio>>;
+  historicoExercicio: (exercicioId: string, limite?: number) => Promise<RegistroExercicio[]>;
   favoritos: ReadonlySet<string>;
   /** atualiza na hora e desfaz se o servidor recusar (o erro é repassado) */
   alternarFavorito: (exercicioId: string) => Promise<void>;
@@ -83,6 +88,17 @@ export function DadosProvider({ children, repositorio }: { children: ReactNode; 
     };
   }, [repo]);
 
+  // funções estáveis (o modo treino depende delas em efeitos)
+  const salvarSessao = useCallback(
+    async (s: SessaoAtiva) => {
+      if (!repo) throw new Error("Sem conta conectada.");
+      await repo.salvarSessao(s);
+    },
+    [repo],
+  );
+  const historico = useCallback(async (ids: string[]) => (repo ? repo.historico(ids) : {}), [repo]);
+  const historicoExercicio = useCallback(async (id: string, limite?: number) => (repo ? repo.historicoExercicio(id, limite) : []), [repo]);
+
   const alternarFavorito = useCallback(
     async (id: string) => {
       if (!repo) return;
@@ -131,6 +147,9 @@ export function DadosProvider({ children, repositorio }: { children: ReactNode; 
       await repo.salvarPlano(plano);
       await executar(() => repo.carregar());
     },
+    salvarSessao,
+    historico,
+    historicoExercicio,
     favoritos,
     alternarFavorito,
   };

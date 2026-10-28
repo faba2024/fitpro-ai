@@ -7,6 +7,7 @@ import { AuthProvider } from "@/app/auth";
 import { DadosProvider } from "@/app/dados";
 import { rotas } from "@/app/rotas";
 import { TemaProvider } from "@/app/tema";
+import { TreinoProvider } from "@/app/treinoAtivo";
 import { LocalRepositorio } from "@/data/local";
 import { paraLinha } from "@/data/perfilMapper";
 import { PARQ } from "@/domain/tipos";
@@ -22,9 +23,11 @@ function renderLocal(caminho: string) {
   return render(
     <TemaProvider>
       <DadosProvider repositorio={new LocalRepositorio(localStorage)}>
-        <MemoryRouter initialEntries={[caminho]}>
+        <TreinoProvider>
+          <MemoryRouter initialEntries={[caminho]}>
           <Rotas />
         </MemoryRouter>
+          </TreinoProvider>
       </DadosProvider>
     </TemaProvider>,
   );
@@ -35,9 +38,11 @@ function renderNuvem(cliente: SupabaseClient, caminho: string) {
     <TemaProvider>
       <AuthProvider cliente={cliente}>
         <DadosProvider>
+          <TreinoProvider>
           <MemoryRouter initialEntries={[caminho]}>
             <Rotas />
           </MemoryRouter>
+          </TreinoProvider>
         </DadosProvider>
       </AuthProvider>
     </TemaProvider>,

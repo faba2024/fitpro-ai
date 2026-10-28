@@ -24,12 +24,13 @@ export function supabaseFalso(op: Opcoes = {}) {
       perfil = { ...linha, atualizado_em: "2026-10-28T12:00:00Z" };
       return Promise.resolve({ error: null });
     }),
-    rpc: vi.fn(() => {
+    rpc: vi.fn((_nome?: string, _args?: unknown) => {
       perfil = null;
       return Promise.resolve({ error: null });
     }),
     signIn: vi.fn(),
     signUp: vi.fn(),
+    upsertSessao: vi.fn((_linha: unknown) => Promise.resolve({ error: null })),
     upsertPlano: vi.fn((linha: Record<string, unknown>) => {
       plano = { ...linha, revisado_em: null, observacao_profissional: null };
       return Promise.resolve({ error: null });
@@ -66,7 +67,24 @@ export function supabaseFalso(op: Opcoes = {}) {
       },
     },
     from: (tabela: string) =>
-      tabela === "planos"
+      tabela === "sessoes" || tabela === "series"
+        ? {
+            // consultas encadeadas (eq/neq/in/order/limit) terminam numa lista vazia
+            select: () => {
+              const q: Record<string, unknown> = {};
+              for (const m of ["eq", "neq", "in", "order"]) q[m] = () => q;
+              q.limit = () => Promise.resolve({ data: [], error: null });
+              return q;
+            },
+            upsert: chamadas.upsertSessao,
+            delete: () => {
+              const q: Record<string, unknown> = { then: (r: (v: unknown) => void) => r({ error: null }) };
+              q.eq = () => q;
+              q.not = () => Promise.resolve({ error: null });
+              return q;
+            },
+          }
+        : tabela === "planos"
         ? {
             select: () => ({ eq: () => ({ eq: () => ({ maybeSingle: () => Promise.resolve({ data: plano, error: null }) }) }) }),
             upsert: chamadas.upsertPlano,
@@ -81,7 +99,7 @@ export function supabaseFalso(op: Opcoes = {}) {
             select: () => ({ eq: () => ({ maybeSingle: () => Promise.resolve({ data: perfil, error: null }) }) }),
             upsert: chamadas.upsert,
           },
-    rpc: chamadas.rpc,
+    rpc: (nome: string, args?: unknown) => (nome === "recordes" ? Promise.resolve({ data: [], error: null }) : args === undefined ? chamadas.rpc(nome) : chamadas.rpc(nome, args)),
   };
 
   return { cliente: cliente as unknown as SupabaseClient, chamadas };
