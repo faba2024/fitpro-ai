@@ -3,7 +3,6 @@ import type { RouteObject } from "react-router";
 import { AppShell } from "@/components/layout/AppShell";
 import { CriarConta, Entrar, RecuperarSenha, RedefinirSenha } from "@/features/auth/paginas";
 import { Dashboard } from "@/features/dashboard/Dashboard";
-import { EmConstrucao } from "@/features/EmConstrucao";
 import { Carregando } from "@/features/Estados";
 import { lazy, Suspense, type ReactNode } from "react";
 
@@ -16,6 +15,7 @@ const EditarFicha = lazy(() => import("@/features/treinos/EditarFicha").then((m)
 const ModoTreino = lazy(() => import("@/features/sessao/ModoTreino").then((m) => ({ default: m.ModoTreino })));
 const Resumo = lazy(() => import("@/features/sessao/Resumo").then((m) => ({ default: m.Resumo })));
 const Evolucao = lazy(() => import("@/features/evolucao/Evolucao").then((m) => ({ default: m.Evolucao })));
+const Assistente = lazy(() => import("@/features/assistente/Assistente").then((m) => ({ default: m.Assistente })));
 const Anatomia = lazy(() => import("@/features/anatomia/Anatomia").then((m) => ({ default: m.Anatomia })));
 const sob = (el: ReactNode) => <Suspense fallback={<Carregando />}>{el}</Suspense>;
 import { NaoEncontrada } from "@/features/NaoEncontrada";
@@ -69,10 +69,7 @@ export const rotas: RouteObject[] = [
       { path: "exercicios/:id", element: sob(<Detalhe />) },
       { path: "anatomia", element: sob(<Anatomia />) },
       { path: "evolucao", element: sob(<Evolucao />) },
-      {
-        path: "assistente",
-        element: <EmConstrucao titulo="Assistente de IA" etapa={10} texto="Tire dúvidas sobre exercícios e encontre alternativas na biblioteca, com limites claros para questões de saúde." />,
-      },
+      { path: "assistente", element: sob(<Assistente />) },
       { path: "perfil", element: <Perfil /> },
       { path: "perfil/editar", element: <EditarPerfil /> },
       { path: "*", element: <NaoEncontrada /> },

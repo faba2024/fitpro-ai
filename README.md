@@ -2,7 +2,13 @@
 
 Aplicativo de treino (PWA) com dashboard, fichas, biblioteca de exercícios, mapa muscular, modo treino, evolução e assistente de IA. Desenvolvido por etapas; veja o plano e o estado de cada etapa em [docs/ARQUITETURA.md](docs/ARQUITETURA.md).
 
-## O que já funciona (v0.7)
+## O que já funciona (v0.8)
+
+**Etapa 10 — assistente de IA:**
+- Tira dúvidas sobre exercícios, técnica e treino e indica só exercícios da biblioteca (com link).
+- Roda numa função segura da Vercel (`api/assistente.ts`): exige login, limite de 30 perguntas por dia, conversa não é guardada no servidor.
+- Usar seu perfil/ficha e seus dados de saúde nas respostas são autorizações separadas, desligadas por padrão.
+- **Para funcionar:** cadastre `ANTHROPIC_API_KEY` na Vercel (Settings → Environment Variables, Production e Preview) e publique de novo. Localmente, use `npx vercel dev`.
 
 **Etapa 9 — evolução física:**
 - Comparação por período (30 dias, 90 dias, 12 meses, tudo) com o período anterior: treinos, volume, treinos por semana e variação de peso.

@@ -59,9 +59,9 @@ describe("Dashboard", () => {
     expect(screen.getByText("Peito e tríceps")).toBeInTheDocument();
   });
 
-  it("etapas futuras dizem que ainda não estão prontas", async () => {
+  it("assistente no modo local explica que precisa de conta", async () => {
     renderApp("/assistente");
-    expect(await screen.findByText("Chega na etapa 10")).toBeInTheDocument();
+    expect(await screen.findByText("O assistente precisa de uma conta", {}, { timeout: 5000 })).toBeInTheDocument();
   });
 
   it("rota desconhecida mostra página não encontrada", async () => {

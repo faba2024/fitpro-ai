@@ -13,7 +13,7 @@ interface Opcoes {
 
 export function supabaseFalso(op: Opcoes = {}) {
   const user = { id: "user-1", email: "aluno@teste.local" };
-  let sessao: { user: typeof user } | null = op.logado ? { user } : null;
+  let sessao: { user: typeof user; access_token: string } | null = op.logado ? { user, access_token: "token-falso" } : null;
   let perfil: LinhaPerfil | null = op.perfil ?? null;
   let plano: Record<string, unknown> | null = null;
   const ouvintes = new Set<(evento: string, s: typeof sessao) => void>();
@@ -47,14 +47,14 @@ export function supabaseFalso(op: Opcoes = {}) {
       signInWithPassword: async (cred: { email: string; password: string }) => {
         chamadas.signIn(cred);
         if (op.erroLogin) return { data: {}, error: op.erroLogin };
-        sessao = { user };
+        sessao = { user, access_token: "token-falso" };
         emitir("SIGNED_IN");
         return { data: { session: sessao }, error: null };
       },
       signUp: async (cred: { email: string; password: string }) => {
         chamadas.signUp(cred);
         if (op.precisaConfirmar) return { data: { session: null, user }, error: null };
-        sessao = { user };
+        sessao = { user, access_token: "token-falso" };
         emitir("SIGNED_IN");
         return { data: { session: sessao, user }, error: null };
       },

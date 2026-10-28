@@ -1,0 +1,36 @@
+.pagina { display: flex; flex-direction: column; gap: 12px; max-width: 760px; }
+.mini { font-size: 12.5px; color: var(--text-3); }
+
+.privacidade { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 14px; }
+.privacidade summary { display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 14px; font-weight: 600; color: var(--text-2); }
+.privacidade summary svg { width: 18px; height: 18px; color: var(--success); }
+.privacidade[open] summary { margin-bottom: 10px; }
+.alternar { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; padding: 6px 0; cursor: pointer; }
+.alternar input { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--accent); flex: none; }
+.alternar:has(input:disabled) { opacity: 0.55; cursor: default; }
+
+.conversa { display: flex; flex-direction: column; gap: 12px; min-height: 220px; }
+.boasVindas { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; padding: 20px 8px; color: var(--text-2); font-size: 14.5px; }
+.boasVindas > svg { width: 36px; height: 36px; color: var(--accent-text); }
+.sugestoes { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.sugestoes button { min-height: 38px; padding: 6px 14px; border-radius: 999px; border: 1px solid var(--border-strong); background: var(--surface); font-size: 13.5px; color: var(--text); text-align: left; }
+
+.daPessoa, .doAssistente { display: flex; gap: 8px; align-items: flex-start; }
+.daPessoa { flex-direction: row-reverse; }
+.avatar { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex: none; background: var(--surface-3); color: var(--text-2); }
+.doAssistente .avatar { background: var(--accent-soft); color: var(--accent-text); }
+.avatar svg { width: 18px; height: 18px; }
+.balao { max-width: min(560px, 85%); border-radius: 16px; padding: 10px 14px; font-size: 15px; line-height: 1.5; overflow-wrap: anywhere; }
+.daPessoa .balao { background: var(--accent); color: var(--on-accent); border-top-right-radius: 6px; }
+.doAssistente .balao { background: var(--surface); border: 1px solid var(--border); border-top-left-radius: 6px; }
+.comErro .balao { background: var(--danger-soft); border-color: transparent; color: var(--danger); }
+.digitando { color: var(--text-2); font-style: italic; }
+
+.resposta { display: flex; flex-direction: column; gap: 8px; }
+.resposta ul { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 4px; }
+.linkExercicio { color: var(--accent-text); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+
+.entrada { position: sticky; bottom: calc(var(--nav-h) + env(safe-area-inset-bottom) + 8px); display: flex; gap: 8px; align-items: flex-end; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); padding: 8px 0; }
+@media (min-width: 900px) { .entrada { bottom: 8px; } }
+.entrada textarea { flex: 1; min-height: 48px; max-height: 160px; resize: vertical; padding: 12px 14px; border-radius: 14px; border: 1px solid var(--border-strong); background: var(--surface); color: var(--text); font: inherit; font-size: 16px; line-height: 1.4; }
+.entrada textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }

@@ -208,6 +208,17 @@ RLS por papel:
 - **Excluir conta** apaga primeiro os arquivos do Storage (que não somem junto com o usuário) e depois a conta.
 - **Testes de RLS** em `supabase/tests/rls_evolucao.sql` (15 verificações). O Supabase bloqueia `DELETE` direto em `storage.objects`, então "apagar arquivo de outra pessoa" só é coberto pela policy de delete usada pela API de Storage.
 
+## Decisões da etapa 10
+
+- **Função no servidor** `api/assistente.ts` (Vercel Function, `POST`). A chave `ANTHROPIC_API_KEY` só existe ali; o app nunca a recebe. Sem a chave configurada, a função responde 503 com mensagem clara (nada é simulado).
+- **Login obrigatório:** a função valida o token do Supabase e cria um cliente agindo como a própria pessoa (RLS vale). **Limite de 30 perguntas por dia** por pessoa em `assistente_uso`, somado só pela função `consumir_cota_assistente()` (security definer: ninguém zera o próprio contador). A pergunta é validada antes de gastar cota.
+- **Núcleo testável** em `api/_lib/assistente.ts` (cliente da API injetado; testes usam um falso). Modelo `claude-opus-5-5`, esforço baixo, com modelo de reserva automático em recusas do filtro de segurança.
+- **Sem invenção:** o modelo consulta a biblioteca com as ferramentas `buscar_exercicios` e `detalhar_exercicio` (executadas no servidor sobre o mesmo catálogo do app) e cita exercícios como `[[id]]`; o servidor remove ids que não existem, e o app só faz link para os conferidos. A conversa inteira (inclusive raciocínio) volta a cada chamada da ferramenta, como a API exige; no máximo 5 voltas.
+- **Consentimento:** compartilhar perfil e ficha é opcional e começa desligado; limitações e PAR-Q exigem uma segunda autorização. Nome, e-mail e data de nascimento nunca são enviados. O servidor descarta campos inesperados e trata as limitações escritas pela pessoa como dado delimitado, não como instrução.
+- **Privacidade da conversa:** fica só no `sessionStorage` do navegador; o servidor não grava mensagens (só a contagem diária).
+- **Limites de saúde** nas instruções: sem diagnóstico, exames, remédios, suplementos ou doses; sinais de alerta (dor no peito, falta de ar, desmaio, tontura forte, dor aguda) → parar e procurar atendimento.
+- **Testar localmente:** `npx vercel dev` (o `vite dev` sozinho não roda as funções de `api/`).
+
 ## Estado das etapas
 
 | Etapa | Status |
@@ -221,4 +232,5 @@ RLS por papel:
 | 7. Motor de treinos | ✅ divisão por dias, escolha por equipamento/nível, ajuste ao tempo, controle de volume e recuperação, edição (trocar, reordenar, adicionar), regra de progressão testada, revisão profissional no banco |
 | 8. Modo treino | ✅ registro de carga/reps por série, cronômetro de descanso, pausa, trocar/pular/adicionar série, salvamento a cada toque no aparelho, retomada após fechar, sincronização idempotente com fila offline, resumo com recordes e sugestão de carga, histórico no exercício |
 | 9. Evolução física | ✅ comparação por período, gráficos acessíveis (peso com meta, frequência, volume, carga por exercício, medidas), medidas corporais, meta de peso, recordes, fotos privadas com comparação; 169 testes |
-| 10–12 | pendente |
+| 10. Assistente de IA | ✅ função segura na Vercel, login e limite diário, ferramentas sobre a biblioteca (sem inventar exercícios), consentimento separado para perfil e saúde, conversa só no navegador; 195 testes. Falta cadastrar `ANTHROPIC_API_KEY` na Vercel |
+| 11–12 | pendente |
