@@ -2,7 +2,12 @@
 
 Aplicativo de treino (PWA) com dashboard, fichas, biblioteca de exercícios, mapa muscular, modo treino, evolução e assistente de IA. Desenvolvido por etapas; veja o plano e o estado de cada etapa em [docs/ARQUITETURA.md](docs/ARQUITETURA.md).
 
-## O que já funciona (v0.3)
+## O que já funciona (v0.4)
+
+**Etapa 6 — mapa muscular:**
+- Corpo de frente e de costas com 16 músculos clicáveis (também pelo teclado e por uma lista de nomes).
+- Ao escolher um músculo: exercícios em que ele é principal e em que é secundário, com filtros de nível, objetivo e equipamentos.
+- No detalhe de cada exercício, o mapa mostra os músculos principais (forte) e secundários (leve), e cada músculo leva ao mapa.
 
 **Etapa 5 — biblioteca de exercícios:**
 - 51 exercícios com fotos, animação de início e fim, músculos principais e secundários, passo a passo, respiração, técnica, erros comuns, segurança e alternativas.

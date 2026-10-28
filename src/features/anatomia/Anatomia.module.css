@@ -1,0 +1,60 @@
+.pagina { display: flex; flex-direction: column; gap: 14px; }
+.layout { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 900px) { .layout { grid-template-columns: minmax(300px, 380px) minmax(0, 1fr); align-items: start; } }
+
+.painelMapa {
+  display: flex; flex-direction: column; gap: 12px; align-items: center;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 14px; box-shadow: var(--shadow);
+}
+@media (min-width: 900px) { .painelMapa { position: sticky; top: 24px; } }
+.painelLista { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+
+.abas { display: flex; gap: 6px; align-self: stretch; background: var(--surface-2); border-radius: 12px; padding: 4px; }
+.aba { flex: 1; min-height: 38px; border: 0; border-radius: 9px; background: none; font-weight: 600; font-size: 14px; color: var(--text-2); }
+.abaAtiva { background: var(--accent); color: var(--on-accent); }
+.girar { width: 40px; border: 0; border-radius: 9px; background: none; color: var(--text-2); display: flex; align-items: center; justify-content: center; }
+.girar svg { width: 18px; height: 18px; }
+
+/* desenho */
+.mapa { display: block; width: 100%; height: auto; }
+.mapaGrande { max-width: 280px; max-height: 62vh; }
+.silhueta { fill: var(--surface-3); stroke: var(--border-strong); stroke-width: 1; }
+.musculo path, .secundario path, .principal path { stroke-width: 0.8; stroke-linejoin: round; transition: fill var(--dur) var(--ease); }
+.musculo path { fill: color-mix(in srgb, var(--text-3) 32%, var(--surface-3)); stroke: var(--surface); }
+.secundario path { fill: color-mix(in srgb, var(--accent) 38%, var(--surface-3)); stroke: var(--surface); }
+.principal path { fill: var(--accent); stroke: color-mix(in srgb, var(--accent) 60%, #fff); }
+.clicavel { cursor: pointer; outline: none; }
+@media (hover: hover) { .clicavel.musculo:hover path { fill: color-mix(in srgb, var(--accent) 45%, var(--surface-3)); } }
+.clicavel:focus-visible path { stroke: var(--accent); stroke-width: 2.5; }
+
+.listaMusculos { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+.chip { min-height: 34px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--border-strong); background: var(--surface-2); font-size: 13px; font-weight: 600; color: var(--text-2); }
+.chipAtivo { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+
+.cabMusculo { display: flex; align-items: center; gap: 10px; }
+.cabMusculo h2 { font-size: 22px; font-weight: 750; letter-spacing: -0.02em; }
+
+.filtros { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.select select { min-height: 38px; padding: 0 32px 0 12px; border-radius: 999px; border: 1px solid var(--border-strong); background: var(--surface); color: var(--text); font: inherit; font-size: 14px; font-weight: 600; }
+.alternar { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: var(--text-2); min-height: 38px; }
+.alternar input { width: 18px; height: 18px; accent-color: var(--accent); }
+
+.exercicios { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+.exercicio { display: flex; gap: 12px; align-items: center; padding: 8px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface-2); }
+@media (hover: hover) { .exercicio:hover { border-color: var(--border-strong); } }
+.miniFoto { width: 72px; height: 54px; border-radius: 8px; overflow: hidden; background: #fff; flex: none; }
+.miniFoto img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.exInfo { display: flex; flex-direction: column; gap: 4px; align-items: flex-start; min-width: 0; }
+.exInfo strong { font-size: 14.5px; line-height: 1.3; }
+.vazio { font-size: 14px; color: var(--text-2); }
+.nota { font-size: 12px; color: var(--text-3); text-align: center; }
+
+/* mapa pequeno (detalhe do exercício) */
+.duplo { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; max-width: 320px; margin: 0 auto; }
+.duplo figure { margin: 0; text-align: center; }
+.duplo figcaption { font-size: 12px; color: var(--text-3); margin-top: 4px; }
+.legenda { display: flex; justify-content: center; gap: 14px; font-size: 12.5px; color: var(--text-2); margin-top: 8px; }
+.legenda span { display: inline-flex; align-items: center; gap: 6px; }
+.legenda i { width: 12px; height: 12px; border-radius: 4px; display: inline-block; }
+.corPrincipal { background: var(--accent); }
+.corSecundario { background: color-mix(in srgb, var(--accent) 38%, var(--surface-3)); }

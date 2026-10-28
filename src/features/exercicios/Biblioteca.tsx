@@ -1,9 +1,9 @@
-import { Heart, Search, SearchX } from "lucide-react";
+import { Heart, Scan, Search, SearchX } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router";
 import { useDados } from "@/app/dados";
 import { PageHeader } from "@/components/layout/PageHeader";
-import { Badge, Button, Card, EmptyState } from "@/components/ui";
+import { Badge, Button, ButtonLink, Card, EmptyState } from "@/components/ui";
 import { EXERCICIOS } from "@/data/catalogo";
 import { filtrar, GRUPOS, grupoDoExercicio, LICENCA_ACERVO, type Grupo } from "@/domain/exercicios";
 import { NIVEIS, OBJETIVOS, type Nivel, type Objetivo } from "@/domain/tipos";
@@ -59,7 +59,11 @@ export function Biblioteca() {
 
   return (
     <div className={s.pagina}>
-      <PageHeader titulo="Exercícios" subtitulo={`${EXERCICIOS.length} exercícios com passo a passo, músculos e alternativas`} />
+      <PageHeader
+        titulo="Exercícios"
+        subtitulo={`${EXERCICIOS.length} exercícios com passo a passo, músculos e alternativas`}
+        acao={<ButtonLink to="/anatomia" variante="secundario" icone={<Scan />}>Mapa muscular</ButtonLink>}
+      />
 
       <div className={s.busca}>
         <Search aria-hidden="true" />

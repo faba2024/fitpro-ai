@@ -1,4 +1,4 @@
-import { Activity, Bot, Dumbbell, House, PersonStanding, User } from "lucide-react";
+import { Activity, Bot, Dumbbell, House, PersonStanding, Scan, User } from "lucide-react";
 import type { RouteObject } from "react-router";
 import { AppShell } from "@/components/layout/AppShell";
 import { CriarConta, Entrar, RecuperarSenha, RedefinirSenha } from "@/features/auth/paginas";
@@ -10,6 +10,7 @@ import { lazy, Suspense, type ReactNode } from "react";
 // telas pesadas (catálogo de exercícios) em arquivos separados, carregados ao abrir
 const Biblioteca = lazy(() => import("@/features/exercicios/Biblioteca").then((m) => ({ default: m.Biblioteca })));
 const Detalhe = lazy(() => import("@/features/exercicios/Detalhe").then((m) => ({ default: m.Detalhe })));
+const Anatomia = lazy(() => import("@/features/anatomia/Anatomia").then((m) => ({ default: m.Anatomia })));
 const sob = (el: ReactNode) => <Suspense fallback={<Carregando />}>{el}</Suspense>;
 import { NaoEncontrada } from "@/features/NaoEncontrada";
 import { EditarPerfil } from "@/features/perfil/EditarPerfil";
@@ -26,7 +27,10 @@ export const NAV = [
   { para: "/perfil", rotulo: "Perfil", icone: User },
 ] as const;
 
-export const NAV_EXTRA = [{ para: "/assistente", rotulo: "Assistente IA", icone: Bot }] as const;
+export const NAV_EXTRA = [
+  { para: "/anatomia", rotulo: "Mapa muscular", icone: Scan },
+  { para: "/assistente", rotulo: "Assistente IA", icone: Bot },
+] as const;
 
 export const rotas: RouteObject[] = [
   // contas (públicas)
@@ -58,10 +62,7 @@ export const rotas: RouteObject[] = [
       },
       { path: "exercicios", element: sob(<Biblioteca />) },
       { path: "exercicios/:id", element: sob(<Detalhe />) },
-      {
-        path: "anatomia",
-        element: <EmConstrucao titulo="Mapa muscular" etapa={6} texto="Corpo humano de frente e de costas com músculos clicáveis e os exercícios de cada região." />,
-      },
+      { path: "anatomia", element: sob(<Anatomia />) },
       {
         path: "evolucao",
         element: <EmConstrucao titulo="Evolução" etapa={9} texto="Gráficos de peso, medidas, cargas, volume de treino e recordes pessoais." />,

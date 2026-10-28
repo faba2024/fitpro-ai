@@ -16,6 +16,7 @@ import {
 } from "@/domain/exercicios";
 import { EQUIPAMENTOS, NIVEIS, OBJETIVOS } from "@/domain/tipos";
 import { NaoEncontrada } from "@/features/NaoEncontrada";
+import { MapaExercicio } from "@/features/anatomia/MapaExercicio";
 import { BotaoFavorito, ImagemExercicio, TOM_NIVEL } from "./comuns";
 import s from "./Exercicios.module.css";
 
@@ -104,12 +105,21 @@ export function Detalhe() {
           </Card>
 
           <Card titulo="Músculos trabalhados">
+            <MapaExercicio ex={ex} />
             <p className={s.rotuloLista}>Principais</p>
-            <div className={s.badges}>{ex.musculosPrincipais.map((m) => <Badge key={m} tom="destaque">{MUSCULOS[m]}</Badge>)}</div>
+            <div className={s.badges}>
+              {ex.musculosPrincipais.map((m) => (
+                <Link key={m} to={`/anatomia?musculo=${m}`} className={s.linkMusculo}><Badge tom="destaque">{MUSCULOS[m]}</Badge></Link>
+              ))}
+            </div>
             {ex.musculosSecundarios.length > 0 && (
               <>
                 <p className={s.rotuloLista}>Secundários</p>
-                <div className={s.badges}>{ex.musculosSecundarios.map((m) => <Badge key={m}>{MUSCULOS[m]}</Badge>)}</div>
+                <div className={s.badges}>
+                  {ex.musculosSecundarios.map((m) => (
+                    <Link key={m} to={`/anatomia?musculo=${m}`} className={s.linkMusculo}><Badge>{MUSCULOS[m]}</Badge></Link>
+                  ))}
+                </div>
               </>
             )}
             <p className={s.rotuloLista}>Equipamento</p>

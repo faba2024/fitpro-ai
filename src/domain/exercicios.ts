@@ -161,6 +161,19 @@ export function filtrar(lista: readonly Exercicio[], f: Filtros): Exercicio[] {
   });
 }
 
+/**
+ * Exercícios de um músculo, separados em quem o trabalha como principal e como secundário,
+ * respeitando os demais filtros. Principais primeiro, mais fáceis antes.
+ */
+export function exerciciosDoMusculo(lista: readonly Exercicio[], musculo: Musculo, f: Omit<Filtros, "musculo" | "grupo"> = {}) {
+  const base = filtrar(lista, f);
+  const porNivel = (a: Exercicio, b: Exercicio) => ORDEM_NIVEL[a.dificuldade] - ORDEM_NIVEL[b.dificuldade] || a.nome.localeCompare(b.nome, "pt-BR");
+  return {
+    principais: base.filter((e) => e.musculosPrincipais.includes(musculo)).sort(porNivel),
+    secundarios: base.filter((e) => e.musculosSecundarios.includes(musculo)).sort(porNivel),
+  };
+}
+
 /** Alternativas que a pessoa consegue fazer, na ordem cadastrada. */
 export function alternativasPossiveis(ex: Exercicio, catalogo: ReadonlyMap<string, Exercicio>, meus: readonly Equipamento[] | null): Exercicio[] {
   return ex.alternativas.map((id) => catalogo.get(id)).filter((a): a is Exercicio => !!a && (!meus || disponivel(a, meus)));

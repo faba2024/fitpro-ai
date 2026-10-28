@@ -81,6 +81,8 @@
 .aviso { display: flex; gap: 8px; align-items: flex-start; margin-top: 10px; font-size: 13.5px; background: var(--warning-soft); border-radius: 10px; padding: 10px 12px; }
 .aviso svg { width: 18px; height: 18px; color: var(--warning); flex: none; margin-top: 1px; }
 
+.linkMusculo { display: inline-flex; border-radius: 999px; }
+@media (hover: hover) { .linkMusculo:hover span { text-decoration: underline; } }
 .rotuloLista { font-size: 13px; color: var(--text-2); font-weight: 600; margin: 10px 0 6px; }
 .rotuloLista:first-of-type { margin-top: 0; }
 .texto { font-size: 15px; color: var(--text); }

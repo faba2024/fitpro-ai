@@ -4,7 +4,9 @@ import {
   adequadoAoNivel,
   alternativasPossiveis,
   disponivel,
+  exerciciosDoMusculo,
   filtrar,
+  MUSCULOS,
   grupoDoExercicio,
   normalizar,
   objetivosIndicados,
@@ -93,6 +95,34 @@ describe("busca e filtros", () => {
 
   it("filtra favoritos", () => {
     expect(filtrar(EXERCICIOS, { favoritos: new Set(["prancha"]) }).map((e) => e.id)).toEqual(["prancha"]);
+  });
+});
+
+describe("exercícios por músculo", () => {
+  it("separa principal e secundário, sem repetir", () => {
+    const { principais, secundarios } = exerciciosDoMusculo(EXERCICIOS, "triceps");
+    expect(principais.map((e) => e.id)).toContain("triceps-polia");
+    expect(secundarios.map((e) => e.id)).toContain("supino-reto-barra");
+    expect(principais.filter((e) => secundarios.includes(e))).toEqual([]);
+  });
+
+  it("ordena do mais fácil para o mais difícil", () => {
+    const { principais } = exerciciosDoMusculo(EXERCICIOS, "abdomen");
+    const ordem = { iniciante: 0, intermediario: 1, avancado: 2 };
+    const niveis = principais.map((e) => ordem[e.dificuldade]);
+    expect(niveis).toEqual([...niveis].sort((a, b) => a - b));
+  });
+
+  it("aplica filtros de equipamento e nível", () => {
+    const { principais } = exerciciosDoMusculo(EXERCICIOS, "peitoral", { equipamentos: ["peso_corporal"], dificuldade: "iniciante" });
+    expect(principais.map((e) => e.id)).toEqual(["flexao"]);
+  });
+
+  it("todo músculo tem pelo menos um exercício como principal ou secundário", () => {
+    for (const m of Object.keys(MUSCULOS) as (keyof typeof MUSCULOS)[]) {
+      const r = exerciciosDoMusculo(EXERCICIOS, m);
+      expect(r.principais.length + r.secundarios.length, m).toBeGreaterThan(0);
+    }
   });
 });
 

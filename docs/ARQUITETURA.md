@@ -173,6 +173,12 @@ RLS por papel:
 - Fotos do acervo free-exercise-db (The Unlicense) servidas pelo jsDelivr, presas ao commit `f00c92c`. Os textos são próprios, em português, não traduções literais.
 - Prescrição padrão por objetivo e tipo de exercício (faixas usuais do treinamento resistido); iniciante faz uma série a menos. A carga é escolhida pela técnica e pelo esforço (1 a 3 repetições de sobra), nunca por idade ou peso.
 
+## Decisões da etapa 6
+
+- Mapa 2D desenhado no próprio código (`src/features/anatomia/regioes.ts`): sem dependência nem licença de terceiros, leve e com tema claro/escuro. Cada forma é descrita só do lado direito e espelhada.
+- Os 16 músculos do mapa são os mesmos do catálogo (`MUSCULOS`), então a lista de exercícios por músculo vem direto das fichas técnicas.
+- 3D (three.js) continua como melhoria opcional, caso surja um modelo com músculos separados e licença adequada.
+
 ## Estado das etapas
 
 | Etapa | Status |
@@ -182,4 +188,5 @@ RLS por papel:
 | 3. Navegação e dashboard | ✅ v1 (modo local) — 29 testes passando |
 | 4. Cadastro e perfil (Supabase) | ✅ login, cadastro, recuperação de senha, onboarding com PAR-Q e consentimento LGPD, perfil editável, exclusão de conta; RLS testada (supabase/tests) |
 | 5. Biblioteca de exercícios | ✅ 51 exercícios em português (passo a passo, respiração, técnica, erros, segurança, alternativas), busca e filtros, prescrição por objetivo/nível, favoritos (Supabase + local) |
-| 6–12 | pendente |
+| 6. Anatomia interativa | ✅ mapa 2D próprio (SVG) frente/costas com 16 músculos clicáveis e acessíveis por teclado, exercícios principais/secundários por músculo com filtros, mapa no detalhe do exercício |
+| 7–12 | pendente |
