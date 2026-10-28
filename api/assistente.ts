@@ -3,7 +3,7 @@
 // A chave da Anthropic existe só aqui (variável ANTHROPIC_API_KEY); a conversa não é gravada.
 import Anthropic from "@anthropic-ai/sdk";
 import { createClient } from "@supabase/supabase-js";
-import { ErroEntrada, responder, validarEntrada, type ClienteClaude, type RespostaClaude } from "./_lib/assistente";
+import { ErroEntrada, responder, validarEntrada, type ClienteClaude, type RespostaClaude } from "./_lib/assistente.js";
 
 const LIMITE_DIARIO = 30;
 const MAX_CORPO = 40_000;

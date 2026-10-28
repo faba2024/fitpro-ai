@@ -1,8 +1,8 @@
 // Núcleo do assistente de IA: validação da entrada, instruções, ferramentas sobre a biblioteca
 // e o laço de chamadas ao Claude. Sem acesso à rede aqui: o cliente da API é injetado (testes usam um falso).
-import { EXERCICIOS, CATALOGO } from "../../src/data/catalogo";
-import { filtrar, GRUPOS, MUSCULOS, type Grupo, type Musculo } from "../../src/domain/exercicios";
-import { EQUIPAMENTOS, NIVEIS, OBJETIVOS, type Equipamento, type Nivel, type Objetivo } from "../../src/domain/tipos";
+import { EXERCICIOS, CATALOGO } from "../../src/data/catalogo.js";
+import { filtrar, GRUPOS, MUSCULOS, type Grupo, type Musculo } from "../../src/domain/exercicios.js";
+import { EQUIPAMENTOS, NIVEIS, OBJETIVOS, type Equipamento, type Nivel, type Objetivo } from "../../src/domain/tipos.js";
 
 export const MODELO = "claude-opus-5-5";
 export const MAX_MENSAGEM = 1500;
