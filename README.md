@@ -2,7 +2,13 @@
 
 Aplicativo de treino (PWA) com dashboard, fichas, biblioteca de exercícios, mapa muscular, modo treino, evolução e assistente de IA. Desenvolvido por etapas; veja o plano e o estado de cada etapa em [docs/ARQUITETURA.md](docs/ARQUITETURA.md).
 
-## O que já funciona (v0.6)
+## O que já funciona (v0.7)
+
+**Etapa 9 — evolução física:**
+- Comparação por período (30 dias, 90 dias, 12 meses, tudo) com o período anterior: treinos, volume, treinos por semana e variação de peso.
+- Gráficos acessíveis (dica ao tocar, teclado e tabela de dados): peso com meta, frequência e volume semanais, maior carga por exercício e medidas corporais.
+- Registro de medidas (um por dia), meta de peso e recordes pessoais.
+- Fotos de evolução privadas (só a própria pessoa vê), reduzidas no aparelho e comparáveis lado a lado. Banco: `medidas`, `fotos` e bucket `fotos-evolucao`, com RLS testada em `supabase/tests/rls_evolucao.sql`.
 
 **Etapa 8 — modo treino:**
 - Escolha do treino, exercícios na ordem da ficha, registro de carga e repetições por série com sugestão de carga do último treino.

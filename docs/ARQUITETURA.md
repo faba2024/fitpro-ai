@@ -198,6 +198,16 @@ RLS por papel:
 - **Sugestão de carga** no início de cada exercício vem do último treino daquele exercício pela dupla progressão; o resumo mostra recordes (só quando havia histórico) e a sugestão para a próxima vez.
 - Tela ligada durante o treino com Wake Lock quando o navegador permite; fim do descanso avisa com vibração e um bipe curto.
 
+## Decisões da etapa 9
+
+- **Regras puras** em `src/domain/evolucao.ts`: intervalos de período (30/90/365 dias e tudo), comparação com o período anterior de mesmo tamanho, séries semanais, séries de medidas e progresso de carga por exercício. Datas "AAAA-MM-DD" são lidas como data local, para não mudar de dia por causa do fuso.
+- **Variação de peso** usa como referência o último peso **antes** do período (ou o primeiro dentro dele) e compara com o último registro do período.
+- **Gráficos próprios em SVG** (`src/components/graficos`), sem biblioteca: menos peso no app. Seguem o guia de visualização: uma série por gráfico (o título nomeia, sem legenda), linha de 2 px, barras com topo arredondado e 2 px de folga, grade discreta, meta como linha cinza tracejada, eixo único, dica ao tocar/passar o mouse, navegação por teclado (setas, Home/End, Esc) e tabela de dados. A cor de destaque passou no validador de paleta nos modos claro e escuro.
+- **Medidas:** tabela `medidas`, um registro por pessoa e dia (salvar de novo na mesma data atualiza); exige ao menos um valor e faixas plausíveis. Sem medidas registradas, o peso do cadastro aparece como primeiro ponto, marcado "do cadastro". Meta de peso opcional em `perfis.meta_peso_kg`.
+- **Fotos:** bucket privado `fotos-evolucao` (até 5 MB, só imagens), uma pasta por usuário; tabela `fotos` com o caminho, que precisa estar na pasta do próprio usuário. **Só o dono vê** (nem o professor), com URL assinada de 1 hora. A foto é reduzida no aparelho (lado máx. 1600 px, JPEG), o que também remove os metadados da câmera.
+- **Excluir conta** apaga primeiro os arquivos do Storage (que não somem junto com o usuário) e depois a conta.
+- **Testes de RLS** em `supabase/tests/rls_evolucao.sql` (15 verificações). O Supabase bloqueia `DELETE` direto em `storage.objects`, então "apagar arquivo de outra pessoa" só é coberto pela policy de delete usada pela API de Storage.
+
 ## Estado das etapas
 
 | Etapa | Status |
@@ -210,4 +220,5 @@ RLS por papel:
 | 6. Anatomia interativa | ✅ mapa 2D próprio (SVG) frente/costas com 16 músculos clicáveis e acessíveis por teclado, exercícios principais/secundários por músculo com filtros, mapa no detalhe do exercício |
 | 7. Motor de treinos | ✅ divisão por dias, escolha por equipamento/nível, ajuste ao tempo, controle de volume e recuperação, edição (trocar, reordenar, adicionar), regra de progressão testada, revisão profissional no banco |
 | 8. Modo treino | ✅ registro de carga/reps por série, cronômetro de descanso, pausa, trocar/pular/adicionar série, salvamento a cada toque no aparelho, retomada após fechar, sincronização idempotente com fila offline, resumo com recordes e sugestão de carga, histórico no exercício |
-| 9–12 | pendente |
+| 9. Evolução física | ✅ comparação por período, gráficos acessíveis (peso com meta, frequência, volume, carga por exercício, medidas), medidas corporais, meta de peso, recordes, fotos privadas com comparação; 169 testes |
+| 10–12 | pendente |
