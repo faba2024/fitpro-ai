@@ -14,8 +14,9 @@ begin
     (a, 'pa@teste.local', 'authenticated', 'authenticated'), (b, 'pb@teste.local', 'authenticated', 'authenticated'),
     (p, 'pp@teste.local', 'authenticated', 'authenticated'), (d, 'pd@teste.local', 'authenticated', 'authenticated');
   insert into public.academias (nome, slug) values ('Academia Teste', 'academia-teste-planos') returning id into x;
-  insert into public.membros_academia (academia_id, user_id, papel, professor_id) values
-    (x, a, 'aluno', p), (x, b, 'aluno', null), (x, p, 'professor', null), (x, d, 'admin', null);
+  -- o professor entra antes: o vínculo do aluno exige um professor ativo (etapa 11)
+  insert into public.membros_academia (academia_id, user_id, papel) values (x, p, 'professor'), (x, d, 'admin');
+  insert into public.membros_academia (academia_id, user_id, papel, professor_id) values (x, a, 'aluno', p), (x, b, 'aluno', null);
   insert into public.planos (aluno_id, criado_por, nome, objetivo, estrutura) values (b, b, 'Ficha B', 'saude', est) returning id into pb;
 
   -- aluno A

@@ -1,5 +1,5 @@
 import { ArrowDown, ArrowUp, Plus, Replace, Trash2 } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { Navigate, useNavigate } from "react-router";
 import { useDados } from "@/app/dados";
 import { PageHeader } from "@/components/layout/PageHeader";
@@ -38,13 +38,41 @@ export function EditarFicha() {
 
 function Editor({ inicial }: { inicial: Plano }) {
   const { estado, salvarPlano } = useDados();
-  const navegar = useNavigate();
   const dados = estado.status === "pronto" ? estado.dados : null;
+  const params: ParametrosPlano | null = inicial.parametros ?? (dados ? parametrosDoPerfil(dados.perfilCompleto, dados.perfil) : null);
+  if (!params) return <Navigate to="/treino" replace />;
+  return (
+    <EditorFicha
+      inicial={inicial}
+      params={params}
+      voltarPara="/treino"
+      subtitulo={inicial.revisadoEm ? "Alterar a ficha desfaz a revisão do profissional." : inicial.nome}
+      // editada pela pessoa vira "manual"; ficha de professor continua sendo dele (a revisão o banco desfaz)
+      salvar={(ficha) => salvarPlano({ ...ficha, origem: ficha.origem === "professor" ? "professor" : "manual" })}
+    />
+  );
+}
+
+interface PropsEditor {
+  inicial: Plano;
+  params: ParametrosPlano;
+  /** grava a ficha; ao terminar sem erro, volta para `voltarPara` */
+  salvar: (ficha: Plano) => Promise<void>;
+  voltarPara: string;
+  titulo?: string;
+  subtitulo?: ReactNode;
+  rotuloSalvar?: string;
+  /** começa como "alterada" (ex.: ficha recém-gerada que ainda não foi salva) */
+  nova?: boolean;
+}
+
+/** Editor de ficha reutilizável: o do aluno (ficha ativa) e o do professor (ficha de um aluno). */
+export function EditorFicha({ inicial, params, salvar: gravar, voltarPara, titulo = "Editar ficha", subtitulo, rotuloSalvar = "Salvar ficha", nova = false }: PropsEditor) {
+  const navegar = useNavigate();
   const [ficha, setFicha] = useState<Plano>(inicial);
-  const [mudou, setMudou] = useState(false);
+  const [mudou, setMudou] = useState(nova);
   const [salvando, setSalvando] = useState(false);
   const [erro, setErro] = useState<string | null>(null);
-  const params: ParametrosPlano | null = ficha?.parametros ?? (dados ? parametrosDoPerfil(dados.perfilCompleto, dados.perfil) : null);
 
   // avisa antes de sair da página com alterações não salvas
   useEffect(() => {
@@ -54,9 +82,7 @@ function Editor({ inicial }: { inicial: Plano }) {
     return () => window.removeEventListener("beforeunload", aviso);
   }, [mudou]);
 
-  const avisos = useMemo(() => (params ? conferirPlano(ficha, params, CATALOGO) : []), [ficha, params]);
-
-  if (!params) return <Navigate to="/treino" replace />;
+  const avisos = useMemo(() => conferirPlano(ficha, params, CATALOGO), [ficha, params]);
 
   const aplicar = (f: (p: Plano) => Plano) => {
     setFicha((atual) => f(atual));
@@ -71,10 +97,9 @@ function Editor({ inicial }: { inicial: Plano }) {
     setSalvando(true);
     setErro(null);
     try {
-      // editada pela pessoa vira "manual"; ficha de professor continua sendo dele (a revisão o banco desfaz)
-      await salvarPlano({ ...ficha, origem: ficha.origem === "professor" ? "professor" : "manual" });
+      await gravar(ficha);
       setMudou(false);
-      navegar("/treino", { replace: true });
+      navegar(voltarPara, { replace: true });
     } catch (e) {
       setErro(e instanceof Error ? e.message : "Não foi possível salvar.");
       setSalvando(false);
@@ -83,7 +108,7 @@ function Editor({ inicial }: { inicial: Plano }) {
 
   return (
     <div className={s.pagina}>
-      <PageHeader titulo="Editar ficha" subtitulo={ficha.revisadoEm ? "Alterar a ficha desfaz a revisão do profissional." : ficha.nome} />
+      <PageHeader titulo={titulo} subtitulo={subtitulo ?? ficha.nome} />
       <ListaAvisos avisos={avisos} />
 
       {ficha.sessoes.map((sessao) => (
@@ -92,8 +117,8 @@ function Editor({ inicial }: { inicial: Plano }) {
 
       {erro && <p className={s.erroGeral} role="alert">{erro}</p>}
       <div className={s.salvar}>
-        <ButtonLink to="/treino" variante="secundario">Cancelar</ButtonLink>
-        <Button onClick={() => void salvar()} disabled={!mudou || salvando}>{salvando ? "Salvando…" : "Salvar ficha"}</Button>
+        <ButtonLink to={voltarPara} variante="secundario">Cancelar</ButtonLink>
+        <Button onClick={() => void salvar()} disabled={!mudou || salvando}>{salvando ? "Salvando…" : rotuloSalvar}</Button>
       </div>
     </div>
   );

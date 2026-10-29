@@ -10,7 +10,8 @@ begin
   insert into auth.users (id, email, aud, role) values
     (a, 'ea@teste.local', 'authenticated', 'authenticated'), (b, 'eb@teste.local', 'authenticated', 'authenticated'), (p, 'ep@teste.local', 'authenticated', 'authenticated');
   insert into public.academias (nome, slug) values ('Academia Teste', 'academia-teste-evolucao') returning id into x;
-  insert into public.membros_academia (academia_id, user_id, papel, professor_id) values (x, a, 'aluno', p), (x, p, 'professor', null);
+  insert into public.membros_academia (academia_id, user_id, papel) values (x, p, 'professor');
+  insert into public.membros_academia (academia_id, user_id, papel, professor_id) values (x, a, 'aluno', p);
 
   -- aluno A
   perform set_config('request.jwt.claims', json_build_object('sub', a, 'role', 'authenticated')::text, true);

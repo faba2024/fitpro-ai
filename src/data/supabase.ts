@@ -10,7 +10,7 @@ export class ErroDados extends Error {}
 
 const BUCKET_FOTOS = "fotos-evolucao";
 
-interface LinhaMedida {
+export interface LinhaMedida {
   id: string;
   data: string;
   peso_kg: number | string | null;
@@ -25,7 +25,7 @@ interface LinhaMedida {
 
 const n = (v: number | string | null | undefined) => (v == null ? null : Number(v));
 
-const deLinhaMedida = (l: LinhaMedida): Medida => ({
+export const deLinhaMedida = (l: LinhaMedida): Medida => ({
   id: l.id,
   data: l.data,
   pesoKg: n(l.peso_kg),
@@ -82,7 +82,7 @@ const deLinhaSerie = (l: LinhaSerie) => ({
 const SEM_CONEXAO = "Sem conexão com o servidor. Verifique a internet e tente de novo.";
 
 /** Converte erros do PostgREST/rede em mensagens para a pessoa (sem detalhes internos). */
-function falha(e: { message?: string; code?: string } | null, padrao: string): never {
+export function falha(e: { message?: string; code?: string } | null, padrao: string): never {
   if (e?.message?.includes("Failed to fetch") || e?.message?.includes("NetworkError")) throw new ErroDados(SEM_CONEXAO);
   if (e?.code === "23514") throw new ErroDados("Algum valor está fora do permitido. Revise os campos.");
   throw new ErroDados(padrao);

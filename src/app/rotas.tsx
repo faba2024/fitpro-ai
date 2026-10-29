@@ -1,4 +1,4 @@
-import { Activity, Bot, Dumbbell, House, PersonStanding, Scan, User } from "lucide-react";
+import { Activity, Bot, Building2, Dumbbell, House, PersonStanding, Scan, User } from "lucide-react";
 import type { RouteObject } from "react-router";
 import { AppShell } from "@/components/layout/AppShell";
 import { CriarConta, Entrar, RecuperarSenha, RedefinirSenha } from "@/features/auth/paginas";
@@ -17,6 +17,11 @@ const Resumo = lazy(() => import("@/features/sessao/Resumo").then((m) => ({ defa
 const Evolucao = lazy(() => import("@/features/evolucao/Evolucao").then((m) => ({ default: m.Evolucao })));
 const Assistente = lazy(() => import("@/features/assistente/Assistente").then((m) => ({ default: m.Assistente })));
 const Anatomia = lazy(() => import("@/features/anatomia/Anatomia").then((m) => ({ default: m.Anatomia })));
+const Academias = lazy(() => import("@/features/academia/Academias").then((m) => ({ default: m.Academias })));
+const Professor = lazy(() => import("@/features/academia/Professor").then((m) => ({ default: m.Professor })));
+const AlunoDetalhe = lazy(() => import("@/features/academia/AlunoDetalhe").then((m) => ({ default: m.AlunoDetalhe })));
+const FichaAluno = lazy(() => import("@/features/academia/FichaAluno").then((m) => ({ default: m.FichaAluno })));
+const Gestao = lazy(() => import("@/features/academia/Gestao").then((m) => ({ default: m.Gestao })));
 const sob = (el: ReactNode) => <Suspense fallback={<Carregando />}>{el}</Suspense>;
 import { NaoEncontrada } from "@/features/NaoEncontrada";
 import { EditarPerfil } from "@/features/perfil/EditarPerfil";
@@ -35,6 +40,7 @@ export const NAV = [
 export const NAV_EXTRA = [
   { para: "/anatomia", rotulo: "Mapa muscular", icone: Scan },
   { para: "/assistente", rotulo: "Assistente IA", icone: Bot },
+  { para: "/academia", rotulo: "Academias", icone: Building2 },
 ] as const;
 
 export const rotas: RouteObject[] = [
@@ -70,6 +76,11 @@ export const rotas: RouteObject[] = [
       { path: "anatomia", element: sob(<Anatomia />) },
       { path: "evolucao", element: sob(<Evolucao />) },
       { path: "assistente", element: sob(<Assistente />) },
+      { path: "academia", element: sob(<Academias />) },
+      { path: "professor", element: sob(<Professor />) },
+      { path: "professor/alunos/:id", element: sob(<AlunoDetalhe />) },
+      { path: "professor/alunos/:id/ficha", element: sob(<FichaAluno />) },
+      { path: "gestao/:id", element: sob(<Gestao />) },
       { path: "perfil", element: <Perfil /> },
       { path: "perfil/editar", element: <EditarPerfil /> },
       { path: "*", element: <NaoEncontrada /> },

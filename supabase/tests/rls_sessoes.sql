@@ -9,8 +9,9 @@ begin
     (a, 'sa@teste.local', 'authenticated', 'authenticated'), (b, 'sb@teste.local', 'authenticated', 'authenticated'),
     (p, 'sp@teste.local', 'authenticated', 'authenticated'), (d, 'sd@teste.local', 'authenticated', 'authenticated');
   insert into public.academias (nome, slug) values ('Academia Teste', 'academia-teste-sessoes') returning id into x;
-  insert into public.membros_academia (academia_id, user_id, papel, professor_id) values
-    (x, a, 'aluno', p), (x, b, 'aluno', null), (x, p, 'professor', null), (x, d, 'admin', null);
+  -- o professor entra antes: o vínculo do aluno exige um professor ativo (etapa 11)
+  insert into public.membros_academia (academia_id, user_id, papel) values (x, p, 'professor'), (x, d, 'admin');
+  insert into public.membros_academia (academia_id, user_id, papel, professor_id) values (x, a, 'aluno', p), (x, b, 'aluno', null);
 
   -- aluno A grava sessão e série; reenviar (upsert) não duplica
   perform set_config('request.jwt.claims', json_build_object('sub', a, 'role', 'authenticated')::text, true);

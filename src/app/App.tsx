@@ -1,4 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router";
+import { AcademiaProvider } from "./academia";
 import { AuthProvider } from "./auth";
 import { DadosProvider } from "./dados";
 import { rotas } from "./rotas";
@@ -12,9 +13,11 @@ export function App() {
     <TemaProvider>
       <AuthProvider>
         <DadosProvider>
-          <TreinoProvider>
-            <RouterProvider router={router} />
-          </TreinoProvider>
+          <AcademiaProvider>
+            <TreinoProvider>
+              <RouterProvider router={router} />
+            </TreinoProvider>
+          </AcademiaProvider>
         </DadosProvider>
       </AuthProvider>
     </TemaProvider>

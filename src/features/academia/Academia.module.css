@@ -1,0 +1,59 @@
+.pagina { display: flex; flex-direction: column; gap: 14px; }
+.lista { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.lista > li { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid var(--border); flex-wrap: wrap; }
+.lista > li:first-child { border-top: 0; padding-top: 0; }
+.info { display: flex; flex-direction: column; flex: 1; min-width: 0; gap: 2px; }
+.info strong { font-size: 15.5px; overflow-wrap: anywhere; }
+.info span { font-size: 13px; color: var(--text-2); }
+.acoes { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.selos { display: flex; gap: 6px; flex-wrap: wrap; }
+
+.texto { font-size: 14.5px; color: var(--text-2); }
+.texto b { color: var(--text); }
+.nota { font-size: 13px; color: var(--text-3); }
+.form { display: flex; flex-direction: column; gap: 14px; }
+.linha { display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; }
+.linha > :first-child { flex: 1; min-width: 180px; }
+.erro { font-size: 14px; color: var(--danger); font-weight: 500; }
+.ok { font-size: 14px; background: var(--success-soft); border-radius: 12px; padding: 10px 14px; }
+.alerta { display: flex; gap: 10px; background: var(--warning-soft); border-radius: 12px; padding: 12px 14px; font-size: 14px; }
+.alerta svg { width: 20px; height: 20px; color: var(--warning); flex: none; margin-top: 1px; }
+.privacidade { display: flex; gap: 10px; background: var(--surface-2); border-radius: 12px; padding: 12px 14px; font-size: 13.5px; color: var(--text-2); }
+.privacidade svg { width: 18px; height: 18px; color: var(--accent-text); flex: none; margin-top: 1px; }
+
+.codigo { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-weight: 700; letter-spacing: 0.06em; font-size: 16px; }
+.codigoGrande { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-weight: 800; letter-spacing: 0.08em; font-size: 26px; text-align: center; padding: 14px; border-radius: 12px; background: var(--accent-soft); color: var(--accent-text); overflow-wrap: anywhere; }
+
+/* números do resumo */
+.numeros { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 0; }
+@media (min-width: 700px) { .numeros { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.numero { background: var(--surface-2); border-radius: 12px; padding: 12px 14px; display: flex; flex-direction: column-reverse; gap: 2px; }
+.numero dt { font-size: 13px; color: var(--text-2); }
+.numero dd { margin: 0; font-size: 24px; font-weight: 800; font-variant-numeric: tabular-nums; }
+
+/* abas */
+.abas { display: flex; gap: 6px; overflow-x: auto; position: relative; padding-bottom: 2px; }
+.aba { flex: none; min-height: 40px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--border-strong); background: var(--surface-2); font-weight: 600; font-size: 14px; color: var(--text-2); }
+.aba[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+
+.select { min-height: 40px; border-radius: 10px; border: 1px solid var(--border-strong); background: var(--surface); color: var(--text); padding: 0 10px; font-size: 14px; max-width: 100%; }
+.mes { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.mes strong { font-size: 16px; text-align: center; flex: 1; }
+.iconeBtn { width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--border-strong); background: var(--surface-2); display: inline-flex; align-items: center; justify-content: center; color: var(--text); flex: none; }
+.iconeBtn svg { width: 18px; height: 18px; }
+.iconeBtn:disabled { opacity: 0.4; }
+
+.tabela { width: 100%; border-collapse: collapse; font-size: 14px; }
+.tabela th, .tabela td { text-align: left; padding: 8px 6px; border-top: 1px solid var(--border); }
+.tabela th { font-size: 12.5px; color: var(--text-2); font-weight: 600; border-top: 0; }
+.tabela td.num { font-variant-numeric: tabular-nums; text-align: right; }
+.rolagem { overflow-x: auto; position: relative; }
+
+.dados { display: grid; grid-template-columns: max-content 1fr; gap: 6px 14px; margin: 0; font-size: 14.5px; }
+.dados dt { color: var(--text-2); }
+.dados dd { margin: 0; overflow-wrap: anywhere; }
+
+.ficha { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.ficha h3 { font-size: 15px; margin: 0 0 4px; }
+.ficha ol { margin: 0; padding-left: 20px; font-size: 14px; color: var(--text-2); }
+.ficha ol b { color: var(--text); font-weight: 600; }

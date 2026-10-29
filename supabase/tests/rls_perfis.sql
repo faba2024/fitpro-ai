@@ -19,8 +19,9 @@ begin
     (d, 'd@teste.local', 'authenticated', 'authenticated');
 
   insert into public.academias (nome, slug) values ('Academia Teste', 'academia-teste') returning id into x;
-  insert into public.membros_academia (academia_id, user_id, papel, professor_id) values
-    (x, a, 'aluno', p), (x, b, 'aluno', null), (x, p, 'professor', null), (x, d, 'admin', null);
+  -- o professor entra antes: o vínculo do aluno exige um professor ativo (etapa 11)
+  insert into public.membros_academia (academia_id, user_id, papel) values (x, p, 'professor'), (x, d, 'admin');
+  insert into public.membros_academia (academia_id, user_id, papel, professor_id) values (x, a, 'aluno', p), (x, b, 'aluno', null);
 
   insert into public.perfis (id, nome, data_nascimento, altura_cm, peso_kg, objetivo, nivel, dias_semana, minutos_sessao, limitacoes, consentimento_termos_em, consentimento_saude_em)
   values

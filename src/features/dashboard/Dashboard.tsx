@@ -1,4 +1,4 @@
-import { Activity, Bot, Check, ChevronRight, Flame, History, PersonStanding, Play, RotateCcw, Sparkles, Target, Trophy } from "lucide-react";
+import { Activity, Bot, Building2, Check, ChevronRight, Flame, History, PersonStanding, Play, RotateCcw, Sparkles, Target, Trophy } from "lucide-react";
 import { Link } from "react-router";
 import { useDados } from "@/app/dados";
 import { Badge, Button, ButtonLink, Card, EmptyState, ProgressBar } from "@/components/ui";
@@ -173,6 +173,7 @@ function Painel({ dados }: { dados: DadosUsuario }) {
           <Atalho para="/evolucao" icone={<History />} rotulo="Histórico" />
           <Atalho para="/assistente" icone={<Bot />} rotulo="Assistente IA" />
           <Atalho para="/treino" icone={<Trophy />} rotulo="Plano semanal" />
+          <Atalho para="/academia" icone={<Building2 />} rotulo="Academias" />
         </nav>
       </div>
     </div>

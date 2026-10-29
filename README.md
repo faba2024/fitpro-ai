@@ -2,7 +2,14 @@
 
 Aplicativo de treino (PWA) com dashboard, fichas, biblioteca de exercícios, mapa muscular, modo treino, evolução e assistente de IA. Desenvolvido por etapas; veja o plano e o estado de cada etapa em [docs/ARQUITETURA.md](docs/ARQUITETURA.md).
 
-## O que já funciona (v0.8)
+## O que já funciona (v0.9)
+
+**Etapa 11 — professor e academia:**
+- Tela **Academias**: entrar com código de convite, ver seus vínculos e sair; criar a sua academia (você vira administrador).
+- **Meus alunos** (professor): frequência, alertas do questionário de saúde e limitações, ficha para revisar; detalhe do aluno com perfil, últimos treinos e peso; revisar a ficha com observação, editar ou montar uma ficha nova a partir do perfil do aluno.
+- **Gestão** (administração): resumo do mês, membros (trocar professor, desativar e reativar), convites de aluno e professor, mensalidades.
+- Mensalidades são **registradas à mão**: o app não faz cobranças nem recebe pagamentos.
+- Privacidade: a administração vê só nomes, vínculos e pagamentos; o professor vê os dados dos próprios alunos; fotos não são compartilhadas. Banco: `convites`, `pagamentos` e funções em `supabase/migrations/20261028000007_painel_academia.sql`, com RLS testada em `supabase/tests/rls_academia.sql`.
 
 **Etapa 10 — assistente de IA:**
 - Tira dúvidas sobre exercícios, técnica e treino e indica só exercícios da biblioteca (com link).

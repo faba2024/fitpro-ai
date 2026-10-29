@@ -219,6 +219,18 @@ RLS por papel:
 - **Limites de saúde** nas instruções: sem diagnóstico, exames, remédios, suplementos ou doses; sinais de alerta (dor no peito, falta de ar, desmaio, tontura forte, dor aguda) → parar e procurar atendimento.
 - **Testar localmente:** `npx vercel dev` (o `vite dev` sozinho não roda as funções de `api/`).
 
+## Decisões da etapa 11
+
+- **Entrada só por convite.** A academia é criada por quem vai administrá-la (`criar_academia()`, até 3 por pessoa) e ninguém entra direto na tabela `membros_academia`: a policy de inserção do admin foi removida. Convites (`convites`) têm código de 10 caracteres hexadecimais (40 bits, gerado no banco), validade de 1 a 30 dias, limite de usos e no máximo 50 abertos por academia; são criados por `criar_convite()` e usados por `aceitar_convite()`. Admin convida alunos e professores; o professor convida só alunos, que já ficam vinculados a ele.
+- **Regras dos vínculos no banco** (gatilho `membros_conferir`): não se troca academia, pessoa ou papel de um vínculo; `professor_id` precisa ser professor ativo da mesma academia; a academia nunca fica sem admin ativo (exceto quando a própria conta é excluída, por LGPD, ou a academia é apagada); professor desativado ou que sai deixa os alunos sem professor.
+- **O aluno sai quando quiser** (policy de delete do próprio vínculo) e o professor perde o acesso na hora, porque as policies de perfil, fichas, sessões e medidas dependem do vínculo ativo. A tela de convite explica o que o professor e a administração passam a ver antes de entrar.
+- **Admin vê só nomes:** `membros_da_academia()` devolve nome, papel, professor e situação; perfil, saúde, fichas, treinos e fotos continuam fora do alcance do admin (testado).
+- **Painel do professor:** lista de alunos com objetivo, nível, frequência (7 e 30 dias), alertas de PAR-Q/limitações e situação da ficha; detalhe com perfil, ficha, últimos treinos e peso; revisão da ficha com observação; edição com o mesmo editor do aluno (`EditorFicha`) ou ficha nova montada pelo motor a partir do perfil do aluno (modo conservador quando há limitações ou PAR-Q). Ficha salva pelo professor já sai revisada; se o aluno alterar depois, o banco desfaz a revisão (regra da etapa 7).
+- **Mensalidades são registro manual** (`pagamentos`, um por aluno e mês): o app **não cobra nem recebe** pagamentos, e a tela diz isso. Admin registra, corrige e apaga; o aluno lê os próprios. Resumo do mês com pagos, em aberto e total registrado; mensalidade padrão da academia sugere o valor.
+- **Sem academia no modo local:** as telas explicam que precisam de conta, em vez de simular.
+- **Testes:** regras puras em `src/domain/academia.test.ts`, telas com repositório falso em `src/features/academia/academia.test.tsx` e RLS em `supabase/tests/rls_academia.sql` (21 verificações). Os testes de RLS antigos passaram a criar o professor antes do aluno, por causa do gatilho.
+- **Fica para depois:** exercícios próprios da academia, cobrança online (exigiria um provedor de pagamento e contrato), relatórios exportáveis.
+
 ## Estado das etapas
 
 | Etapa | Status |
@@ -233,4 +245,5 @@ RLS por papel:
 | 8. Modo treino | ✅ registro de carga/reps por série, cronômetro de descanso, pausa, trocar/pular/adicionar série, salvamento a cada toque no aparelho, retomada após fechar, sincronização idempotente com fila offline, resumo com recordes e sugestão de carga, histórico no exercício |
 | 9. Evolução física | ✅ comparação por período, gráficos acessíveis (peso com meta, frequência, volume, carga por exercício, medidas), medidas corporais, meta de peso, recordes, fotos privadas com comparação; 169 testes |
 | 10. Assistente de IA | ✅ função segura na Vercel, login e limite diário, ferramentas sobre a biblioteca (sem inventar exercícios), consentimento separado para perfil e saúde, conversa só no navegador; 195 testes. Falta cadastrar `ANTHROPIC_API_KEY` na Vercel |
-| 11–12 | pendente |
+| 11. Painéis do professor e da academia | ✅ academia por convite, painel do professor (alunos, alertas de saúde, revisão e edição de fichas), gestão (membros, professores, convites, mensalidades registradas à mão), admin sem acesso a dados de saúde; RLS testada; 214 testes |
+| 12 | pendente |
