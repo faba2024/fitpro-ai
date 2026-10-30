@@ -1,0 +1,18 @@
+.tela {
+  min-height: 100dvh; background: var(--bg);
+  padding: calc(env(safe-area-inset-top) + 20px) 16px calc(env(safe-area-inset-bottom) + 32px);
+}
+.caixa { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+.marca { align-self: flex-start; border-radius: 8px; }
+.texto { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px 20px; display: flex; flex-direction: column; gap: 12px; font-size: 15px; line-height: 1.6; color: var(--text-2); overflow-wrap: anywhere; }
+.texto h1 { font-size: 26px; font-weight: 750; letter-spacing: -0.02em; color: var(--text); line-height: 1.2; }
+.texto h2 { font-size: 17px; font-weight: 700; color: var(--text); margin-top: 10px; }
+.texto b { color: var(--text); }
+.texto ul { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
+.texto a { color: var(--accent-text); font-weight: 600; }
+.versao { font-size: 13px; color: var(--text-3); margin-top: -8px; }
+.aviso { display: flex; gap: 10px; background: var(--warning-soft); border-radius: 12px; padding: 12px 14px; font-size: 14px; color: var(--text); }
+.aviso svg { width: 20px; height: 20px; color: var(--warning); flex: none; margin-top: 2px; }
+.rodape { display: flex; flex-wrap: wrap; gap: 8px 18px; justify-content: center; font-size: 14px; }
+.rodape a { color: var(--accent-text); font-weight: 600; padding: 6px 2px; }
+@media (min-width: 700px) { .texto { padding: 32px 36px; } }

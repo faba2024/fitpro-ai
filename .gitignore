@@ -8,3 +8,7 @@ coverage
 # segredos e variáveis locais (o exemplo sem valores fica versionado)
 .env*
 !.env.example
+
+# Playwright
+test-results
+playwright-report

@@ -21,3 +21,4 @@
 .texto { font-size: 14.5px; color: var(--text-2); }
 .texto b { color: var(--text); }
 .erro { font-size: 13px; color: var(--danger); font-weight: 500; margin-top: -8px; }
+.texto a { color: var(--accent-text); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }

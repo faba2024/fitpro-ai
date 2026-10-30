@@ -4,6 +4,7 @@ import { ButtonLink, EmptyState } from "@/components/ui";
 export function NaoEncontrada() {
   return (
     <EmptyState
+      nivel={1}
       icone={<MapPinOff />}
       titulo="Página não encontrada"
       texto="O endereço pode estar errado ou a página mudou de lugar."

@@ -231,6 +231,16 @@ RLS por papel:
 - **Testes:** regras puras em `src/domain/academia.test.ts`, telas com repositório falso em `src/features/academia/academia.test.tsx` e RLS em `supabase/tests/rls_academia.sql` (21 verificações). Os testes de RLS antigos passaram a criar o professor antes do aluno, por causa do gatilho.
 - **Fica para depois:** exercícios próprios da academia, cobrança online (exigiria um provedor de pagamento e contrato), relatórios exportáveis.
 
+## Decisões da etapa 12
+
+- **Testes de ponta a ponta com Playwright** (`e2e/`, `npm run e2e`). Dois servidores de teste: modo local (sem Supabase) e "nuvem" com um endereço fictício de Supabase, respondido por `e2e/supabaseFalso.ts` (autenticação e um PostgREST mínimo em memória, com a regra de uma ficha ativa). Nenhum teste fala com o Supabase real nem cria contas.
+- **Cobertura:** jornada completa com conta (criar conta → onboarding → montar ficha → treinar → recarregar no meio → retomar → concluir → evolução, conferindo o que foi gravado), jornada no modo local, rotas protegidas, documentos públicos, todas as telas sem rolagem lateral, em celular (tema claro) e computador (tema escuro).
+- **Acessibilidade automática** com axe (WCAG 2.1 AA, falha em problemas graves/críticos). Ela encontrou contraste insuficiente: `--text-3`, sucesso e alerta no tema claro e o azul de destaque no escuro (texto branco dava 3,9:1). Os tokens foram ajustados para pelo menos 4,5:1.
+- **Termos de Uso e Política de Privacidade** em `/termos` e `/privacidade`, públicos e ligados ao cadastro, login e perfil. Descrevem o tratamento real (dados, quem vê o quê, operadores Supabase/Vercel/Anthropic, retenção, direitos). Os dados do controlador ficam em `src/config/legal.ts` e, enquanto vazios, a página avisa.
+- **Cabeçalhos de produção** (`vercel.json`): CSP restrita ao próprio app, ao Supabase do projeto e às imagens do jsDelivr; HSTS; o script de tema saiu do HTML para `public/tema.js` para a CSP não precisar de `unsafe-inline` em scripts.
+- **Erros:** `errorElement` em todas as rotas com tela amigável; erro de arquivo de versão antiga (após uma publicação) recarrega a página sozinho, no máximo uma vez por minuto.
+- **Lista de lançamento** em `docs/LANCAMENTO.md` (o que depende do responsável: dados do controlador, revisão jurídica, URLs e SMTP do Supabase, chave da IA, domínio, plano).
+
 ## Estado das etapas
 
 | Etapa | Status |
@@ -246,4 +256,4 @@ RLS por papel:
 | 9. Evolução física | ✅ comparação por período, gráficos acessíveis (peso com meta, frequência, volume, carga por exercício, medidas), medidas corporais, meta de peso, recordes, fotos privadas com comparação; 169 testes |
 | 10. Assistente de IA | ✅ função segura na Vercel, login e limite diário, ferramentas sobre a biblioteca (sem inventar exercícios), consentimento separado para perfil e saúde, conversa só no navegador; 195 testes. Falta cadastrar `ANTHROPIC_API_KEY` na Vercel |
 | 11. Painéis do professor e da academia | ✅ academia por convite, painel do professor (alunos, alertas de saúde, revisão e edição de fichas), gestão (membros, professores, convites, mensalidades registradas à mão), admin sem acesso a dados de saúde; RLS testada; 214 testes |
-| 12 | pendente |
+| 12. Testes, correções e preparação para publicação | ✅ 8 testes de ponta a ponta (Playwright) em celular e computador, acessibilidade automática com contraste corrigido, Termos e Privacidade, CSP e HSTS, tela de erro; 215 testes unitários. Pendências do responsável em `docs/LANCAMENTO.md` |

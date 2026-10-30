@@ -155,6 +155,10 @@ export function SecaoPerfil({ secao, form, erros, mudar }: Props) {
           <p className={s.texto}>
             Seus dados de saúde (medidas, respostas do questionário e limitações) são <b>dados sensíveis pela LGPD</b>. Eles ficam protegidos na sua conta, são usados só para montar e ajustar seus treinos, e você pode excluir tudo a qualquer momento em Perfil.
           </p>
+          <p className={s.texto}>
+            Leia antes de aceitar: <a href="/termos" target="_blank" rel="noopener">Termos de Uso</a> e{" "}
+            <a href="/privacidade" target="_blank" rel="noopener">Política de Privacidade</a> (abrem em outra aba).
+          </p>
           <Opcao tipo="checkbox" rotulo="Li e aceito os Termos de Uso e a Política de Privacidade" checked={form.aceitaTermos} onChange={(e) => mudar({ aceitaTermos: e.target.checked })} />
           {erros.aceitaTermos && <p className={s.erro} role="alert">{erros.aceitaTermos}</p>}
           <Opcao

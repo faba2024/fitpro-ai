@@ -2,7 +2,14 @@
 
 Aplicativo de treino (PWA) com dashboard, fichas, biblioteca de exercícios, mapa muscular, modo treino, evolução e assistente de IA. Desenvolvido por etapas; veja o plano e o estado de cada etapa em [docs/ARQUITETURA.md](docs/ARQUITETURA.md).
 
-## O que já funciona (v0.9)
+## O que já funciona (v1.0)
+
+**Etapa 12 — testes e preparação para publicação:**
+- Testes de ponta a ponta com Playwright (`npm run e2e`) no celular e no computador, nos temas claro e escuro, com e sem conta. Usam um Supabase simulado e não tocam no banco real.
+- Acessibilidade verificada automaticamente em todas as telas (contraste corrigido).
+- Termos de Uso (`/termos`) e Política de Privacidade (`/privacidade`).
+- Cabeçalhos de segurança (CSP, HSTS) e tela de erro amigável.
+- **Antes de abrir ao público, veja [docs/LANCAMENTO.md](docs/LANCAMENTO.md).**
 
 **Etapa 11 — professor e academia:**
 - Tela **Academias**: entrar com código de convite, ver seus vínculos e sair; criar a sua academia (você vira administrador).
@@ -85,6 +92,8 @@ Outros comandos:
 
 ```bash
 npm test           # testes unitários e de componentes (Vitest)
+npm run e2e        # testes de ponta a ponta (Playwright; antes: npx playwright install chromium)
+npm run verificar  # tipos + testes + ponta a ponta
 npm run build      # checagem de tipos + build de produção em dist/
 npm run preview    # serve o build em http://localhost:4173
 node scripts/gerar-icones.mjs   # regenera os ícones PNG do PWA

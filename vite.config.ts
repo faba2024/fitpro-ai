@@ -45,6 +45,8 @@ export default defineConfig({
     environment: "jsdom",
     globals: true,
     setupFiles: ["./src/test/setup.ts"],
+    // e2e/ roda no Playwright (npm run e2e), não no Vitest
+    exclude: ["node_modules/**", "dist/**", "e2e/**"],
     css: { modules: { classNameStrategy: "non-scoped" } },
   },
 });

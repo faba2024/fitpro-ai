@@ -22,7 +22,10 @@ const Professor = lazy(() => import("@/features/academia/Professor").then((m) =>
 const AlunoDetalhe = lazy(() => import("@/features/academia/AlunoDetalhe").then((m) => ({ default: m.AlunoDetalhe })));
 const FichaAluno = lazy(() => import("@/features/academia/FichaAluno").then((m) => ({ default: m.FichaAluno })));
 const Gestao = lazy(() => import("@/features/academia/Gestao").then((m) => ({ default: m.Gestao })));
+const Termos = lazy(() => import("@/features/legal/Legal").then((m) => ({ default: m.Termos })));
+const Privacidade = lazy(() => import("@/features/legal/Legal").then((m) => ({ default: m.Privacidade })));
 const sob = (el: ReactNode) => <Suspense fallback={<Carregando />}>{el}</Suspense>;
+import { ErroRota } from "@/features/ErroRota";
 import { NaoEncontrada } from "@/features/NaoEncontrada";
 import { EditarPerfil } from "@/features/perfil/EditarPerfil";
 import { Onboarding } from "@/features/perfil/Onboarding";
@@ -43,47 +46,56 @@ export const NAV_EXTRA = [
   { para: "/academia", rotulo: "Academias", icone: Building2 },
 ] as const;
 
+// errorElement: tela amigável para falhas inesperadas (inclusive arquivo de versão antiga após publicar)
 export const rotas: RouteObject[] = [
-  // contas (públicas)
-  { path: "entrar", element: <Entrar /> },
-  { path: "criar-conta", element: <CriarConta /> },
-  { path: "recuperar-senha", element: <RecuperarSenha /> },
-  { path: "redefinir-senha", element: <RedefinirSenha /> },
   {
-    path: "boas-vindas",
-    element: (
-      <Protegido exigePerfil={false}>
-        <Onboarding />
-      </Protegido>
-    ),
-  },
-  // app (exige login e perfil quando há Supabase)
-  {
-    element: (
-      <Protegido>
-        <AppShell />
-      </Protegido>
-    ),
+    errorElement: <ErroRota />,
     children: [
-      { index: true, element: <Dashboard /> },
-      { path: "treino", element: sob(<PlanoSemanal />) },
-      { path: "treino/novo", element: sob(<CriarTreino />) },
-      { path: "treino/editar", element: sob(<EditarFicha />) },
-      { path: "treino/sessao", element: sob(<ModoTreino />) },
-      { path: "treino/resumo", element: sob(<Resumo />) },
-      { path: "exercicios", element: sob(<Biblioteca />) },
-      { path: "exercicios/:id", element: sob(<Detalhe />) },
-      { path: "anatomia", element: sob(<Anatomia />) },
-      { path: "evolucao", element: sob(<Evolucao />) },
-      { path: "assistente", element: sob(<Assistente />) },
-      { path: "academia", element: sob(<Academias />) },
-      { path: "professor", element: sob(<Professor />) },
-      { path: "professor/alunos/:id", element: sob(<AlunoDetalhe />) },
-      { path: "professor/alunos/:id/ficha", element: sob(<FichaAluno />) },
-      { path: "gestao/:id", element: sob(<Gestao />) },
-      { path: "perfil", element: <Perfil /> },
-      { path: "perfil/editar", element: <EditarPerfil /> },
-      { path: "*", element: <NaoEncontrada /> },
+    // contas (públicas)
+    { path: "entrar", element: <Entrar /> },
+    { path: "criar-conta", element: <CriarConta /> },
+    { path: "recuperar-senha", element: <RecuperarSenha /> },
+    { path: "redefinir-senha", element: <RedefinirSenha /> },
+    // documentos (públicos, também no modo local)
+    { path: "termos", element: sob(<Termos />) },
+    { path: "privacidade", element: sob(<Privacidade />) },
+    {
+      path: "boas-vindas",
+      element: (
+        <Protegido exigePerfil={false}>
+          <Onboarding />
+        </Protegido>
+      ),
+    },
+    // app (exige login e perfil quando há Supabase)
+    {
+      element: (
+        <Protegido>
+          <AppShell />
+        </Protegido>
+      ),
+      children: [
+        { index: true, element: <Dashboard /> },
+        { path: "treino", element: sob(<PlanoSemanal />) },
+        { path: "treino/novo", element: sob(<CriarTreino />) },
+        { path: "treino/editar", element: sob(<EditarFicha />) },
+        { path: "treino/sessao", element: sob(<ModoTreino />) },
+        { path: "treino/resumo", element: sob(<Resumo />) },
+        { path: "exercicios", element: sob(<Biblioteca />) },
+        { path: "exercicios/:id", element: sob(<Detalhe />) },
+        { path: "anatomia", element: sob(<Anatomia />) },
+        { path: "evolucao", element: sob(<Evolucao />) },
+        { path: "assistente", element: sob(<Assistente />) },
+        { path: "academia", element: sob(<Academias />) },
+        { path: "professor", element: sob(<Professor />) },
+        { path: "professor/alunos/:id", element: sob(<AlunoDetalhe />) },
+        { path: "professor/alunos/:id/ficha", element: sob(<FichaAluno />) },
+        { path: "gestao/:id", element: sob(<Gestao />) },
+        { path: "perfil", element: <Perfil /> },
+        { path: "perfil/editar", element: <EditarPerfil /> },
+        { path: "*", element: <NaoEncontrada /> },
+      ],
+    },
     ],
   },
 ];

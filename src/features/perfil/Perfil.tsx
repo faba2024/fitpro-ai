@@ -1,6 +1,6 @@
 import { HardDrive, LogOut, Monitor, Moon, Pencil, ShieldCheck, Sun, Trash2, TriangleAlert } from "lucide-react";
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { useAuth } from "@/app/auth";
 import { useDados } from "@/app/dados";
 import { useTema, type Tema } from "@/app/tema";
@@ -78,6 +78,10 @@ export function Perfil() {
           <ExcluirConta />
         </>
       )}
+      <nav className={s.documentos} aria-label="Documentos">
+        <Link to="/termos">Termos de Uso</Link>
+        <Link to="/privacidade">Política de Privacidade</Link>
+      </nav>
     </div>
   );
 }
@@ -128,7 +132,7 @@ function ExcluirConta() {
 
   return (
     <Card titulo="Excluir conta" className={s.perigo}>
-      <p className={s.texto}>Apaga sua conta e todos os dados (perfil, treinos, medidas) de forma permanente. Não dá para desfazer.</p>
+      <p className={s.texto}>Apaga sua conta e todos os dados (perfil, treinos, medidas, fotos e vínculos com academias) de forma permanente. Não dá para desfazer.</p>
       {!aberto ? (
         <Button variante="secundario" icone={<Trash2 />} onClick={() => setAberto(true)} className={s.btnPerigo}>Excluir minha conta</Button>
       ) : (

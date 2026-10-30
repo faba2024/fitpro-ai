@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { Link } from "react-router";
 import { Logo } from "@/components/layout/Logo";
 import s from "./Auth.module.css";
 
@@ -16,6 +17,10 @@ export function AuthLayout({ titulo, subtitulo, children, rodape }: { titulo: st
           {children}
         </section>
         {rodape && <p className={s.rodape}>{rodape}</p>}
+        <nav className={s.documentos} aria-label="Documentos">
+          <Link to="/termos">Termos de Uso</Link>
+          <Link to="/privacidade">Privacidade</Link>
+        </nav>
       </div>
     </main>
   );

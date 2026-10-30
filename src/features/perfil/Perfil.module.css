@@ -25,3 +25,5 @@
 .btnPerigoCheio { background: var(--danger) !important; color: #fff !important; }
 .confirmar { display: flex; flex-direction: column; gap: 12px; }
 .acoes { display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
+.documentos { display: flex; gap: 18px; justify-content: center; font-size: 14px; padding: 4px 0 8px; }
+.documentos a { color: var(--accent-text); font-weight: 600; padding: 6px 2px; }
